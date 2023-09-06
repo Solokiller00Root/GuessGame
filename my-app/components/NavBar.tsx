@@ -4,6 +4,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+
 
 export default function Navbar() {
 	const [mobileNav, setMobileNav] = useState(false);
@@ -13,13 +15,14 @@ export default function Navbar() {
 	};
 
 	return (
-		<header className="sticky inset-x-0 top-0 p-6 bg-black/30 lg:hidden md:hidden">
-			<nav className="container flex justify-between mx-auto">
+		<header className="sticky inset-x-0 top-0 p-6 bg-black/30 lg:hidden md:hidden relative">
+			<nav className="container flex justify-between mx-auto ">
+				
 				<motion.button
 					initial="hide"
 					animate={mobileNav ? "show" : "hide"}
 					onClick={toggleMobileNav}
-					className="relative z-10 flex flex-col space-y-1"
+					className="relative z-10 flex flex-col space-y-1 z-20 "
 				>
 					<motion.span
 						variants={{
@@ -90,7 +93,7 @@ export default function Navbar() {
 								initial="hide"
 								animate="show"
 								exit="hide"
-								className="fixed inset-0 bg-[#170b25] p-6 flex flex-col justify-center space-y-10 lg:hidden"
+								className="fixed inset-0 bg-[#170b25] p-6 flex flex-col justify-center space-y-10 lg:hidden z-10"
 							>
 								<motion.ul
 									variants={{
@@ -154,12 +157,26 @@ export default function Navbar() {
 									
 								</motion.ul>
 							</motion.div>
-
 						</MotionConfig>
 					)}
+
+					<motion.button>
+					
+					<Link href="/">
+
+					
+					<Image
+						src="/assets/logoForGuessGame.png"
+						alt="logo"
+						width={100}
+						height={100}
+						className="absolute top-0 right-0 w-24 h-24 -mt-4 z-2"	
+					/>
+					</Link>
+					</motion.button>
 				</AnimatePresence>
-				<Image src="/assets/logoForGuessGame.png" width={200} height={200} alt="Logo" className="w-[140px] h-[140px] " />
 			</nav>
+			
 		</header>
 	);
 }
