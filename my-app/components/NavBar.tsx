@@ -12,7 +12,7 @@ export default function Navbar() {
 	};
 
 	return (
-		<header className="sticky top-0 inset-x-0 p-6 bg-black/30 lg:hidden">
+		<header className="sticky top-0 inset-x-0 p-6 bg-black/30 lg:hidden md:hidden">
 			<nav className="container mx-auto">
 				<motion.button
 					initial="hide"
@@ -153,10 +153,12 @@ export default function Navbar() {
 									
 								</motion.ul>
 							</motion.div>
+
 						</MotionConfig>
 					)}
 				</AnimatePresence>
 			</nav>
+			<img src="/assets/logoForGuessGame.png" alt="Logo" />
 		</header>
 	);
 }
