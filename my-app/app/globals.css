@@ -24,7 +24,7 @@
   @apply flex justify-center items-center flex-col h-screen relative;
 }
 li {
-  @apply  text-xl font-[bold] cursor-pointer mx-0 my-2.5 p-5;
-  color: #1c1c1c;
+  @apply text-xl font-[bold] cursor-pointer mx-0 my-2.5 p-5;
+  color: #e7d7f9;
   list-style: none;
 }
