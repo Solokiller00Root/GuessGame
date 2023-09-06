@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
+import Image from "next/image";
 
 export default function Navbar() {
 	const [mobileNav, setMobileNav] = useState(false);
@@ -12,13 +13,13 @@ export default function Navbar() {
 	};
 
 	return (
-		<header className="sticky top-0 inset-x-0 p-6 bg-black/30 lg:hidden md:hidden">
-			<nav className="container mx-auto">
+		<header className="sticky inset-x-0 top-0 p-6 bg-black/30 lg:hidden md:hidden">
+			<nav className="container flex justify-between mx-auto">
 				<motion.button
 					initial="hide"
 					animate={mobileNav ? "show" : "hide"}
 					onClick={toggleMobileNav}
-					className="flex flex-col space-y-1 relative z-10"
+					className="relative z-10 flex flex-col space-y-1"
 				>
 					<motion.span
 						variants={{
@@ -30,7 +31,7 @@ export default function Navbar() {
 								y: 5,
 							},
 						}}
-						className="w-6 bg-white h-px block"
+						className="block w-6 h-px bg-white"
 					></motion.span>
 					<motion.span
 						variants={{
@@ -41,7 +42,7 @@ export default function Navbar() {
 								opacity: 0,
 							},
 						}}
-						className="w-6 bg-white h-px block"
+						className="block w-6 h-px bg-white"
 					></motion.span>
 					<motion.span
 						variants={{
@@ -53,7 +54,7 @@ export default function Navbar() {
 								y: -5,
 							},
 						}}
-						className="w-6 bg-white h-px block"
+						className="block w-6 h-px bg-white"
 					></motion.span>
 				</motion.button>
 				<AnimatePresence>
@@ -102,7 +103,7 @@ export default function Navbar() {
 											opacity: 1,
 										},
 									}}
-									className="list-none space-y-6 "
+									className="space-y-6 list-none "
 								>
 									<li>
 										<a href="#" className="text-5xl font-semibold text-white">
@@ -144,7 +145,7 @@ export default function Navbar() {
 											opacity: 1,
 										},
 									}}
-									className="list-none flex justify-center gap-x-4"
+									className="flex justify-center list-none gap-x-4"
 								>
 									<button>
 										<div className="bg-white rounded-lg  ">Sign in with github</div>
@@ -157,8 +158,8 @@ export default function Navbar() {
 						</MotionConfig>
 					)}
 				</AnimatePresence>
+				<Image src="/assets/logoForGuessGame.png" width={200} height={200} alt="Logo" className="w-[140px] h-[140px] " />
 			</nav>
-			<img src="/assets/logoForGuessGame.png" alt="Logo" />
 		</header>
 	);
 }
