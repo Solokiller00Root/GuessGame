@@ -147,7 +147,7 @@ export default function Navbar() {
 									className="list-none flex justify-center gap-x-4"
 								>
 									<button>
-										<div className="bg-white rounded-lg ">Sign in with github</div>
+										<div className="bg-white rounded-lg  ">Sign in with github</div>
 									</button>
 									
 									
