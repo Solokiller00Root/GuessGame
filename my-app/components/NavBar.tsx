@@ -1,134 +1,162 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+'use client'
 
 
+import { useState } from "react";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 
 export default function Navbar() {
-  const [isClicked, setIsClicked] = useState(false);
-  useEffect(() => {
-    if (isClicked) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [isClicked]);
+	const [mobileNav, setMobileNav] = useState(false);
 
-  function toggleLines() {
-    setIsClicked(!isClicked);
-  }
+	const toggleMobileNav = () => {
+		setMobileNav(!mobileNav);
+	};
 
-  const items = {
-    exit: {
-      opacity: 0,
-      height: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  return (
-    <>
-      <div
-        className={`container-lines ${isClicked ? "x" : ""}`}
-        onClick={toggleLines}
-      >
-        <div className="first-line"></div>
-        <div className="second-line"></div>
-      </div>
-
-      <AnimatePresence>
-        {isClicked && (
-          <motion.div
-            variants={items}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "100vh" }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            exit="exit"
-          >
-            <div className="container-links">
-              <ul className="wrapper">
-                <motion.div
-                  variants={items}
-                  initial={{ y: 90, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 2 }}
-                  exit={{
-                    opacity: 0,
-                    y: 90,
-                    transition: {
-                      duration: 0.3,
-                      ease: "easeInOut",
-                    },
-                  }}
-                >
-                  <motion.div
-                    variants={items}
-                    initial={{ y: 90, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      opacity: 0,
-                      y: 90,
-                      transition: {
-                        duration: 0.1,
-                        ease: "easeInOut",
-                        delay: 0.1,
-                      },
-                    }}
-                    exit={{ y: 90, opacity: 0 }}
-                  >
-                    <li>
-                      <a href="#">Home</a>
-                    </li>
-                  </motion.div>
-
-                  <motion.div
-                    variants={items}
-                    initial={{ y: 90, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      opacity: 0,
-                      y: 90,
-                      transition: {
-                        duration: 0.2,
-                        ease: "easeInOut",
-                        delay: 0.2,
-                      },
-                    }}
-                    exit={{ y: 90, opacity: 0 }}
-                  >
-                    <li>
-                      <a href="#">About</a>
-                    </li>
-                  </motion.div>
-                  <motion.div
-                    variants={items}
-                    initial={{ y: 90, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      opacity: 0,
-                      y: 90,
-                      transition: {
-                        duration: 0.3,
-                        ease: "easeInOut",
-                        delay: 0.3,
-                      },
-                    }}
-                    exit={{ y: 90, opacity: 0 }}
-                  >
-                    <li>
-                      <a href="#">Contact</a>
-                    </li>
-                  </motion.div>
-                </motion.div>
-              </ul>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
+	return (
+		<header className="sticky top-0 inset-x-0 p-6 bg-black/30 lg:hidden">
+			<nav className="container mx-auto">
+				<motion.button
+					initial="hide"
+					animate={mobileNav ? "show" : "hide"}
+					onClick={toggleMobileNav}
+					className="flex flex-col space-y-1 relative z-10"
+				>
+					<motion.span
+						variants={{
+							hide: {
+								rotate: 0,
+							},
+							show: {
+								rotate: 45,
+								y: 5,
+							},
+						}}
+						className="w-6 bg-white h-px block"
+					></motion.span>
+					<motion.span
+						variants={{
+							hide: {
+								opacity: 1,
+							},
+							show: {
+								opacity: 0,
+							},
+						}}
+						className="w-6 bg-white h-px block"
+					></motion.span>
+					<motion.span
+						variants={{
+							hide: {
+								rotate: 0,
+							},
+							show: {
+								rotate: -45,
+								y: -5,
+							},
+						}}
+						className="w-6 bg-white h-px block"
+					></motion.span>
+				</motion.button>
+				<AnimatePresence>
+					{mobileNav && (
+						<MotionConfig
+							transition={{
+								type: "spring",
+								bounce: 0.1,
+							}}
+						>
+							<motion.div
+								key="mobile-nav"
+								variants={{
+									hide: {
+										x: "-100%",
+										transition: {
+											type: "spring",
+											bounce: 0.1,
+											when: "afterChildren",
+											staggerChildren: 0.25,
+										},
+									},
+									show: {
+										x: "0%",
+										transition: {
+											type: "spring",
+											bounce: 0.1,
+											when: "beforeChildren",
+											staggerChildren: 0.25,
+										},
+									},
+								}}
+								initial="hide"
+								animate="show"
+								exit="hide"
+								className="fixed inset-0 bg-[#170b25] p-6 flex flex-col justify-center space-y-10 lg:hidden"
+							>
+								<motion.ul
+									variants={{
+										hide: {
+											y: "25%",
+											opacity: 0,
+										},
+										show: {
+											y: "0%",
+											opacity: 1,
+										},
+									}}
+									className="list-none space-y-6 "
+								>
+									<li>
+										<a href="#" className="text-5xl font-semibold text-white">
+											Link #1
+										</a>
+									</li>
+									<li>
+										<a href="#" className="text-5xl font-semibold text-white">
+											Link #2
+										</a>
+									</li>
+									<li>
+										<a href="#" className="text-5xl font-semibold text-white">
+											Link #3
+										</a>
+									</li>
+								</motion.ul>
+								<motion.div
+									variants={{
+										hide: {
+											y: "25%",
+											opacity: 0,
+										},
+										show: {
+											y: "0%",
+											opacity: 1,
+										},
+									}}
+									className="w-full h-px bg-white/30"
+								></motion.div>
+								<motion.ul
+									variants={{
+										hide: {
+											y: "25%",
+											opacity: 0,
+										},
+										show: {
+											y: "0%",
+											opacity: 1,
+										},
+									}}
+									className="list-none flex justify-center gap-x-4"
+								>
+									<button>
+										<div className="bg-white rounded-lg ">Sign in with github</div>
+									</button>
+									
+									
+								</motion.ul>
+							</motion.div>
+						</MotionConfig>
+					)}
+				</AnimatePresence>
+			</nav>
+		</header>
+	);
 }

@@ -2,29 +2,33 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.container-lines {
-  @apply absolute z-10 cursor-pointer overflow-hidden m-5 right-0 top-0;
-}
-.first-line {
-  @apply w-5 h-0.5 bg-white z-[2] origin-center transition-transform duration-300 ease-in-expo mx-0 my-[5px];
-}
-.second-line {
-  @apply w-5 h-0.5 bg-white z-[2] origin-center transition-transform duration-300 ease-in-expo mx-0 my-[5px];
-}
-.container-lines.x .first-line {
-  @apply rotate-45 translate-x-[5px] translate-y-[5px] transition-transform duration-300 ease-in-expo;
-}
-.container-lines.x .second-line {
-  @apply -rotate-45 translate-x-[5px] translate-y-[-5px] transition-transform duration-300 ease-in-expo;
-}
-.container-links {
-  @apply h-screen w-full absolute top-0 bg-bg-dark;
-}
-.wrapper {
-  @apply flex justify-center items-center flex-col h-screen relative;
-}
+
 li {
-  @apply text-xl font-[bold] cursor-pointer mx-0 my-2.5 p-5;
+  
+    font-size: 1.25rem; /* Equivalent to text-xl */
+
+  
+
+    font-weight: bold; /* Equivalent to font-[bold] */
+
+  
+
+    cursor: pointer; /* Equivalent to cursor-pointer */
+
+  
+
+    margin-left: 0;
+    margin-right: 0; /* Equivalent to mx-0 */
+
+  
+
+    margin-top: 0.625rem; /* Equivalent to my-2.5 */
+    margin-bottom: 0.625rem; /* Equivalent to my-2.5 */
+
+  
+
+    padding: 1.25rem; /* Equivalent to p-5 */
+
   color: #e7d7f9;
   list-style: none;
 }
