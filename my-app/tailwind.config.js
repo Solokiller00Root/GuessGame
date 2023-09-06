@@ -16,6 +16,12 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        'bg-dark': '#11051f',
+      },
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.68,-0.55,0.265,1.55)',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
