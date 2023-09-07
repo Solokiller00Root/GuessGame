@@ -82,7 +82,7 @@ h1 {
   align-items:center;
   flex-flow:column nowrap;  
   color:white;
-  height:90vh;
+  height:95vh;
   min-height:600px;
   scroll-snap-align: start;
     scroll-behavior: smooth;

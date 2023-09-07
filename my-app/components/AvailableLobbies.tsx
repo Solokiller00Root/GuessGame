@@ -63,7 +63,7 @@ export default function AvailableLobbies() {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans ">
+    <div className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans container1 ">
       <motion.h1
         className="text-4xl font-bold mt-8 mb-4 py-10 text-white "
         variants={titleVariants}

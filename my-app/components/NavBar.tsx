@@ -135,27 +135,13 @@ export default function Navbar() {
   }, []);
 
   return (
-<<<<<<< HEAD
-  
-  
-    <header className="sticky inset-x-0 top-0 p-6  z-50" >
-
-      
-
-      <nav className="container flex justify-between mx-auto lg:hidden md:hidden bg-black/30 sticky inset-x-0 top-0 p-6 ">
-        <MotionConfig
-          transition={{
-            key: "mobile-nav",
-          }}
-=======
-    <header className="sticky inset-x-0 top-0 p-6 bg-black/30 z-50  ">
-      <nav className="container flex justify-between mx-auto lg:hidden md:hidden">
+    <header className="sticky inset-x-0 top-0 p-6  z-50  ">
+      <nav className="container flex justify-between mx-auto lg:hidden md:hidden sticky inset-x-0 top-0 p-6 bg-black/30 z-20 ">
         <motion.button
           initial="hide"
           animate={mobileNav ? "show" : "hide"}
           onClick={toggleMobileNav}
           className="relative  flex flex-col space-y-1 z-20 lg:hidden md:hidden "
->>>>>>> a1e44fd1196ca15e009793bcd82919c89897b835
         >
           <motion.span
             variants={{
@@ -396,15 +382,11 @@ export default function Navbar() {
 
         </div>
       </nav>
-<<<<<<< HEAD
       </motion.nav>
       </header>
       </motion.header>
     </header>
    
   
-=======
-    </header >
->>>>>>> a1e44fd1196ca15e009793bcd82919c89897b835
   );
 }
