@@ -1,32 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, MotionConfig } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig, stagger, useAnimate, animate } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
+
 function AuthButton() {
-  const { data: session } = useSession();
-
-  if (session) {
-    return (
-      <>
-        <span className="text-gray-300">{session?.user?.name}</span>
-        <button
-          onClick={() => signOut()}
-          className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-        >
-          Sign out
-        </button>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <span className="text-gray-300">Not signed in</span>
+	const { data: session } = useSession();
+	const [showMenu, setShowMenu] = useState(false);
+  
+	const toggleMenu = () => {
+	  setShowMenu(!showMenu);
+	};
+  
+	const handleSignIn = () => {
+	  signIn("github");
+	};
+  
+	const handleSignOut = () => {
+	  signOut();
+	};
+  
+	if (!session) {
+	  return (
+		<div className="flex gap-2 items-center">
+     
       <button
         onClick={() => signIn()}
         className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
@@ -45,9 +46,63 @@ function AuthButton() {
         </svg>
         Sign in with GitHub
       </button>
-    </>
-  );
-}
+    </div>
+	  );
+	}
+  
+	return (
+	  <div className="relative">
+		<button
+		  onClick={toggleMenu}
+		  className="flex items-center gap-2 focus:outline-none"
+		>
+		  <Image
+			src={session?.user?.image || "/default-avatar.png"}
+			alt="User avatar"
+			width={32}
+			height={32}
+			className="rounded-full"
+		  />
+		  <span className="text-gray-300 text-sm font-medium">
+			{session?.user?.name}
+		  </span>
+		  <svg
+			xmlns="http://www.w3.org/2000/svg"
+			className="h-4 w-4 text-gray-300"
+			viewBox="0 0 20 20"
+			fill="currentColor"
+		  >
+			<path
+			  fillRule="evenodd"
+			  d="M10 12a2 2 0 100-4 2 2 0 000 4z"
+			  clipRule="evenodd"
+			/>
+		  </svg>
+		</button>
+		{showMenu && (
+		  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+			<Link href="/profile">
+			  <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+				View Profile
+			  </div>
+			</Link>
+			<button
+			  onClick={handleSignOut}
+			  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+			>
+			  Sign out
+			</button>
+		  </div>
+		)}
+	  </div>
+	);
+  }
+
+
+const randomNumberBetween = (min: number, max: number) => {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+  
 
 export default function Navbar() {
   const [mobileNav, setMobileNav] = useState(false);
@@ -57,8 +112,9 @@ export default function Navbar() {
   };
 
   return (
+	
     <header className="sticky inset-x-0 top-0 p-6 bg-black/30  ">
-      <nav className="container flex justify-between mx-auto ">
+      <nav className="container flex justify-between mx-auto lg:hidden md:hidden">
         <MotionConfig
           transition={{
             key: "mobile-nav",
@@ -142,7 +198,7 @@ export default function Navbar() {
                 initial="hide"
                 animate="show"
                 exit="hide"
-                className="fixed inset-0 bg-[#170b25] p-6 flex flex-col justify-center space-y-10 lg:hidden z-10"
+                className="fixed inset-0 bg-[#170b25] p-6 flex flex-col justify-center space-y-10 lg:hidden z-10 "
               >
                 <motion.ul
                   variants={{
@@ -158,7 +214,7 @@ export default function Navbar() {
                   className="space-y-6 list-none  "
                 >
                   <li>
-                    <a href="#" className="text-5xl font-semibold text-white">
+                    <a href="#" className="text-5xl font-semibold text-white ">
                       Leaderboards
                     </a>
                   </li>
@@ -218,6 +274,51 @@ export default function Navbar() {
           </motion.button>
         </AnimatePresence>
       </nav>
+	  <nav className="  max-md:hidden ">
+      <div className="flex justify-between items-center h-20   ">
+		  <Link href={'/'}>
+              <Image
+                src="/assets/logoForGuessGame.png"
+                alt="logo"
+                width={150}
+                height={150}
+                className="nav__logo"
+              />
+			</Link>
+        <ul className="flex flex-3 justify-between gap-10 nav__links  ">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-white text-lg font-semibold cursor-pointer"
+          >
+            <Link href="/">
+  <div className="nav__link inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
+    Leaderboards
+  </div>
+</Link>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-white text-lg font-semibold cursor-pointer"
+          >
+            <Link href="/" className="Links">
+              <div className="nav__link inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">Join Game</div>
+            </Link>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-white text-lg font-semibold cursor-pointer"
+          >
+            <Link href="/" className="Links">
+              <div className="nav__link inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">Create Game</div>
+            </Link>
+          </motion.button>
+        </ul>
+        <AuthButton />
+      </div>
+    </nav>
     </header>
   );
 }
