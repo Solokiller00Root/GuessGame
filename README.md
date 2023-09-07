@@ -1,2 +1,5 @@
 # GuessGame
-Guess game for web dev cody hackathon
+
+
+1) finish the pages styling
+2) make the game logic

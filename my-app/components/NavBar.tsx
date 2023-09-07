@@ -1,23 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   motion,
   AnimatePresence,
   MotionConfig,
-  stagger,
-  useAnimate,
-  animate,
+  useScroll,
+  useMotionValueEvent
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 
+
 function AuthButton() {
   const { data: session } = useSession();
   const [showMenu, setShowMenu] = useState(false);
-
+  const {scrollY} = useScroll();
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -53,7 +53,7 @@ function AuthButton() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <button
         onClick={toggleMenu}
         className="flex items-center gap-2 focus:outline-none"
@@ -106,14 +106,42 @@ const randomNumberBetween = (min: number, max: number) => {
 
 export default function Navbar() {
   const [mobileNav, setMobileNav] = useState(false);
+  const [isSmallDevice, setIsSmallDevice] = useState(false);
+
+
 
   const toggleMobileNav = () => {
     setMobileNav(!mobileNav);
   };
+  const {scrollY} = useScroll();
+  const [hidden,setHidden] = useState(false);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+    if (latest > previous) {
+      setHidden(true);
+    }
+    else {
+      setHidden(false);
+    }
+  })
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallDevice(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+    
+  }, []);
 
   return (
-    <header className="sticky inset-x-0 top-0 p-6 bg-black/30 z-50  ">
-      <nav className="container flex justify-between mx-auto lg:hidden md:hidden">
+  
+  
+    <header className="sticky inset-x-0 top-0 p-6  z-50" >
+
+      
+
+      <nav className="container flex justify-between mx-auto lg:hidden md:hidden bg-black/30 sticky inset-x-0 top-0 p-6 ">
         <MotionConfig
           transition={{
             key: "mobile-nav",
@@ -184,6 +212,7 @@ export default function Navbar() {
                       staggerChildren: 0.25,
                     },
                   },
+
                   show: {
                     x: "0%",
                     transition: {
@@ -194,6 +223,7 @@ export default function Navbar() {
                     },
                   },
                 }}
+                
                 initial="hide"
                 animate="show"
                 exit="hide"
@@ -273,12 +303,45 @@ export default function Navbar() {
                 alt="logo"
                 width={100}
                 height={100}
-                className="absolute top-0 right-0  -mt-11  z-2 image "
+                className="absolute -top-10 right-10 z-2 image -mt-1 -mr-11 "
               />
             </Link>
           </motion.button>
         </AnimatePresence>
       </nav>
+      <motion.header
+    variants={{
+      visible: {
+        y: 0,
+        opacity:1
+      },
+      hidden: {
+        y: "-100%",
+        opacity:0
+      },
+    }}
+    
+    animate={hidden ? "hidden" : "visible"}
+    transition={{duration: 0.35, ease: "easeInOut"}}
+    className="sticky inset-x-0 top-0 p-6 bg-black/30 z-20 max-md:hidden"
+>
+
+
+    <header className="">
+    <motion.nav
+    variants={{
+      visible: {
+        y: 0,
+        opacity:1
+      },
+      hidden: {
+        y: "-100%",
+        opacity:0
+      },
+    }}
+    animate={hidden ? "hidden" : "visible"}
+    transition={{duration: 0.35, ease: "easeInOut"}}
+    >
       <nav className="  max-md:hidden ">
         <div className="flex justify-between items-center h-20   ">
           <Link href={"/"}>
@@ -331,6 +394,11 @@ export default function Navbar() {
 
         </div>
       </nav>
+      </motion.nav>
+      </header>
+      </motion.header>
     </header>
+   
+  
   );
 }
