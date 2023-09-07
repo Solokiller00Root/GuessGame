@@ -1,12 +1,14 @@
+
+
 import "./globals.css";
 import type { Metadata } from "next";
 
-
-
-
-
 import SessionProvider from "@/components/SessionProvider";
 import { getServerSession } from "next-auth";
+import Navbar from "@/components/NavBar";
+
+
+
 export const metadata: Metadata = {
   title: "Guess Game",
   description: "Guess game for web dev cody hackathon",
@@ -22,10 +24,12 @@ export default async function RootLayout({
     <html lang="en">
       <body className="bg-background">
           <SessionProvider session={session}>
-          <main>
-          
-           {children}
-        </main>
+      <main>
+        <Navbar />
+        {children} 
+
+      </main>
+       
           </SessionProvider>
         </body>
     </html>
