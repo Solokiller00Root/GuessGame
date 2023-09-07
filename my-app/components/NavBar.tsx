@@ -135,6 +135,7 @@ export default function Navbar() {
   }, []);
 
   return (
+<<<<<<< HEAD
   
   
     <header className="sticky inset-x-0 top-0 p-6  z-50" >
@@ -146,62 +147,63 @@ export default function Navbar() {
           transition={{
             key: "mobile-nav",
           }}
+=======
+    <header className="sticky inset-x-0 top-0 p-6 bg-black/30 z-50  ">
+      <nav className="container flex justify-between mx-auto lg:hidden md:hidden">
+        <motion.button
+          initial="hide"
+          animate={mobileNav ? "show" : "hide"}
+          onClick={toggleMobileNav}
+          className="relative  flex flex-col space-y-1 z-20 lg:hidden md:hidden "
+>>>>>>> a1e44fd1196ca15e009793bcd82919c89897b835
         >
-          <motion.button
-            initial="hide"
-            animate={mobileNav ? "show" : "hide"}
-            onClick={toggleMobileNav}
-            className="relative  flex flex-col space-y-1 z-20 lg:hidden md:hidden "
-          >
-            <motion.span
-              variants={{
-                hide: {
-                  rotate: 0,
-                },
-                show: {
-                  rotate: 45,
-                  y: 5,
-                },
-              }}
-              className="block w-6 h-px bg-white"
-            ></motion.span>
-            <motion.span
-              variants={{
-                hide: {
-                  opacity: 1,
-                },
-                show: {
-                  opacity: 0,
-                },
-              }}
-              className="block w-6 h-px bg-white"
-            ></motion.span>
-            <motion.span
-              variants={{
-                hide: {
-                  rotate: 0,
-                },
-                show: {
-                  rotate: -45,
-                  y: -5,
-                },
-              }}
-              className="block w-6 h-px bg-white"
-            ></motion.span>
-          </motion.button>
-        </MotionConfig>
+          <motion.span
+            variants={{
+              hide: {
+                rotate: 0,
+              },
+              show: {
+                rotate: 45,
+                y: 5,
+              },
+            }}
+            className="block w-6 h-px bg-white"
+          ></motion.span>
+          <motion.span
+            variants={{
+              hide: {
+                opacity: 1,
+              },
+              show: {
+                opacity: 0,
+              },
+            }}
+            className="block w-6 h-px bg-white"
+          ></motion.span>
+          <motion.span
+            variants={{
+              hide: {
+                rotate: 0,
+              },
+              show: {
+                rotate: -45,
+                y: -5,
+              },
+            }}
+            className="block w-6 h-px bg-white"
+          ></motion.span>
+        </motion.button>
 
         <AnimatePresence>
           {mobileNav && (
             <MotionConfig
+              key={"mobile-nav"}
               transition={{
-                key: "mobile-nav",
                 type: "spring",
                 bounce: 0.1,
               }}
             >
               <motion.div
-                key="mobile-nav"
                 variants={{
                   hide: {
                     x: "-100%",
@@ -388,17 +390,21 @@ export default function Navbar() {
               </Link>
             </motion.button>
           </ul>
-          
+
 
           <AuthButton />
 
         </div>
       </nav>
+<<<<<<< HEAD
       </motion.nav>
       </header>
       </motion.header>
     </header>
    
   
+=======
+    </header >
+>>>>>>> a1e44fd1196ca15e009793bcd82919c89897b835
   );
 }
