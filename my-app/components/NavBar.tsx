@@ -11,7 +11,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Modal } from "./Modal";
 
 
 
@@ -30,14 +29,14 @@ function AuthButton() {
 
   if (!session) {
     return (
-      <div className="flex items-center gap-2">
+      <div className="flex gap-2 items-center">
         <button
           onClick={() => signIn()}
-          className="px-3 py-2 ml-4 text-sm font-medium text-gray-300 bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          className="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="inline-block w-5 h-5 mr-2"
+            className="h-5 w-5 inline-block mr-2"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -54,7 +53,6 @@ function AuthButton() {
   }
 
   return (
-    <>
     <div className="relative ">
       <button
         onClick={toggleMenu}
@@ -67,12 +65,12 @@ function AuthButton() {
           height={32}
           className="rounded-full"
         />
-        <span className="text-sm font-medium text-gray-300">
+        <span className="text-gray-300 text-sm font-medium">
           {session?.user?.name}
         </span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-4 h-4 text-gray-300"
+          className="h-4 w-4 text-gray-300"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -84,7 +82,7 @@ function AuthButton() {
         </svg>
       </button>
       {showMenu && (
-        <div className="absolute right-0 w-48 py-1 mt-2 bg-white rounded-md shadow-lg">
+        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
           <Link href="/profile">
             <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
               View Profile
@@ -92,14 +90,13 @@ function AuthButton() {
           </Link>
           <button
             onClick={handleSignOut}
-            className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100"
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
             Sign out
           </button>
         </div>
       )}
     </div>
-    </>
   );
 }
 
@@ -110,7 +107,6 @@ const randomNumberBetween = (min: number, max: number) => {
 export default function Navbar() {
   const [mobileNav, setMobileNav] = useState(false);
   const [isSmallDevice, setIsSmallDevice] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
 
 
@@ -131,15 +127,13 @@ export default function Navbar() {
 
 
   return (
-    <>
-    <Modal isOpen={isOpen} />
-    <header className="sticky inset-x-0 top-0 z-50 p-6 ">
-      <nav className="sticky inset-x-0 top-0 z-30 flex justify-between p-6 mx-auto container-navbar lg:hidden md:hidden bg-black/30 ">
+    <header className="sticky inset-x-0 top-0 p-6  z-50  ">
+      <nav className="container-navbar flex justify-between mx-auto lg:hidden md:hidden sticky inset-x-0 top-0 p-6 bg-black/30 z-30 ">
         <motion.button
           initial="hide"
           animate={mobileNav ? "show" : "hide"}
           onClick={toggleMobileNav}
-          className="relative z-20 flex flex-col space-y-1 lg:hidden md:hidden "
+          className="relative  flex flex-col space-y-1 z-20 lg:hidden md:hidden "
         >
           <motion.span
             variants={{
@@ -226,7 +220,7 @@ export default function Navbar() {
                       opacity: 1,
                     },
                   }}
-                  className="space-y-6 list-none "
+                  className="space-y-6 list-none  "
                 >
                   <Link href={'/'}>
                     <li>
@@ -289,7 +283,7 @@ export default function Navbar() {
                 alt="logo"
                 width={100}
                 height={100}
-                className="absolute -mt-1 -top-10 right-10 z-2 image -mr-11 "
+                className="absolute -top-10 right-10 z-2 image -mt-1 -mr-11 "
               />
             </Link>
           </motion.button>
@@ -309,7 +303,7 @@ export default function Navbar() {
     
     animate={hidden ? "hidden" : "visible"}
     transition={{duration: 0.35, ease: "easeInOut"}}
-    className="sticky inset-x-0 top-0 z-20 p-6 bg-black/30 max-md:hidden"
+    className="sticky inset-x-0 top-0 p-6 bg-black/30 z-20 max-md:hidden"
 >
 
 
@@ -328,8 +322,8 @@ export default function Navbar() {
     animate={hidden ? "hidden" : "visible"}
     transition={{duration: 0.35, ease: "easeInOut"}}
     >
-      <nav className=" max-md:hidden">
-        <div className="flex items-center justify-between h-20 ">
+      <nav className="  max-md:hidden ">
+        <div className="flex justify-between items-center h-20   ">
           <Link href={"/"}>
             <Image
               src="/assets/logoForGuessGame.png"
@@ -339,11 +333,11 @@ export default function Navbar() {
               className=""
             />
           </Link>
-          <ul className="flex justify-between gap-10 flex-3 max-lg:gap-4 ">
+          <ul className="flex flex-3 justify-between gap-10 max-lg:gap-4 ">
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="text-lg font-semibold text-white cursor-pointer"
+              className="text-white text-lg font-semibold cursor-pointer"
             >
               <Link href="/">
                 <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
@@ -354,7 +348,7 @@ export default function Navbar() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="text-lg font-semibold text-white cursor-pointer"
+              className="text-white text-lg font-semibold cursor-pointer"
             >
               <Link href="/" className="Links">
                 <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
@@ -365,7 +359,7 @@ export default function Navbar() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="text-lg font-semibold text-white cursor-pointer"
+              className="text-white text-lg font-semibold cursor-pointer"
             >
               <Link href="/" className="Links">
                 <div className="nav__link inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
@@ -384,7 +378,7 @@ export default function Navbar() {
       </header>
       </motion.header>
     </header>
-   </>
+   
   
   );
 }
