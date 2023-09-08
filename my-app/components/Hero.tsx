@@ -76,7 +76,6 @@ useEffect(() => {
             </div>
           </div>
         </div>
-      
       </div>
       
     </motion.section>
