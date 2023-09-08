@@ -77,7 +77,10 @@ h1 {
     text-align: center;
 }
 
-
+.game {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
 
 .input-word-game{
     color: black;
