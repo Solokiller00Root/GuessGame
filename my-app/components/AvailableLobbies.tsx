@@ -73,7 +73,7 @@ export default function AvailableLobbies() {
       >
         Available Lobbies:
       </motion.h1>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto md:w-1/2">
         <motion.table
           className="w-full max-w-md sm:max-w-full border-collapse tables border border-gray-300 sm:rounded-lg"
           variants={tableVariants}
@@ -81,56 +81,53 @@ export default function AvailableLobbies() {
           animate={isTableVisible ? "visible" : "hidden"}
           ref={tableRef}
         >
+          
           <thead>
             <tr>
-              <th className="bg-gray-200 py-2 px-4 border border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-lg">
+              <th className="border bg-black/30 py-4 border-black px-4  text-white font-bold uppercase tracking-wider text-lg">
                 Lobby Name
               </th>
-              <th className="bg-gray-200 py-2 px-4 border border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-lg">
+              <th className="border bg-black/30 py-4 border-black px-4 text-white  font-bold uppercase tracking-wider text-lg">
                 Players
               </th>
-              <th className="bg-gray-200 py-2 px-4 border border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-lg">
+              <th colSpan={2} className="border bg-black/30 py-4 border-black px-4 text-white font-bold uppercase tracking-wider text-lg">
                 Status
               </th>
-              <th className="bg-gray-200 py-2 px-4 border border-gray-300"></th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-gray-100 hover:bg-gray-200">
-              <td className="py-2 px-4 border border-gray-300 text-lg">Lobby 1</td>
-              <td className="py-2 px-4 border border-gray-300 text-lg">4/8</td>
-              <td className="py-2 px-4 border border-gray-300 text-green-600 font-bold text-lg">
+            <tr className="bg-black/30 hover:bg-black/50">
+              <td className="py-3 px-4 border border-black text-lg">Lobby 1</td>
+              <td className="py-3 px-4 border border-black text-lg">4/8</td>
+              <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
                 Open
               </td>
-              <td className="py-2 px-4 border border-gray-300">
+              <td className="py-3 px-4 border border-black">
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Join
                 </button>
               </td>
             </tr>
-            <tr className="bg-gray-100 hover:bg-gray-200">
-              <td className="py-2 px-4 border border-gray-300 text-lg">Lobby 2</td>
-              <td className="py-2 px-4 border border-gray-300 text-lg">2/6</td>
-              <td className="py-2 px-4 border border-gray-300 text-green-600 font-bold text-lg">
+            <tr className="bg-black/30 hover:bg-black/50">
+              <td className="py-3 px-4 border border-black text-lg">Lobby 1</td>
+              <td className="py-3 px-4 border border-black text-lg">4/8</td>
+              <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
                 Open
               </td>
-              <td className="py-2 px-4 border border-gray-300">
+              <td className="py-3 px-4 border border-black">
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Join
                 </button>
               </td>
             </tr>
-            <tr className="bg-gray-100 hover:bg-gray-200">
-              <td className="py-2 px-4 border border-gray-300 text-lg">Lobby 3</td>
-              <td className="py-2 px-4 border border-gray-300 text-lg">1/4</td>
-              <td className="py-2 px-4 border border-gray-300 text-red-600 font-bold text-lg">
-                Closed
+            <tr className="bg-black/30 hover:bg-black/50">
+              <td className="py-3 px-4 border border-black text-lg">Lobby 1</td>
+              <td className="py-3 px-4 border border-black text-lg">4/8</td>
+              <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
+                Open
               </td>
-              <td className="py-2 px-4 border border-gray-300">
-                <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  disabled
-                >
+              <td className="py-3 px-4 border border-black">
+                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Join
                 </button>
               </td>

@@ -73,6 +73,10 @@ h1 {
     margin-bottom: 10rem;
 }
 
+.tables tr > td {
+    color:#fff; 
+    text-align: center;
+}
 
 .header {
   position:relative;

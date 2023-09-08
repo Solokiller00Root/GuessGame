@@ -135,7 +135,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky inset-x-0 top-0 p-6  z-50  ">
+    <header className="sticky inset-x-0 top-0   z-50  ">
       <nav className="container flex justify-between mx-auto lg:hidden md:hidden sticky inset-x-0 top-0 p-6 bg-black/30 z-20 ">
         <motion.button
           initial="hide"
@@ -311,7 +311,7 @@ export default function Navbar() {
     
     animate={hidden ? "hidden" : "visible"}
     transition={{duration: 0.35, ease: "easeInOut"}}
-    className="sticky inset-x-0 top-0 p-6 bg-black/30 z-20 max-md:hidden"
+    className="sticky inset-x-0 top-0 p-4 bg-black/30 z-20 max-md:hidden"
 >
 
 
