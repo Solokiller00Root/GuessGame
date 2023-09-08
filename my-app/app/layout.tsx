@@ -3,7 +3,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
-import SessionProvider from "@/components/SessionProvider";
+import SessionProvider from '@/lib/SessionProvider'
 import { getServerSession } from "next-auth";
 import Navbar from "@/components/NavBar";
 
