@@ -124,15 +124,7 @@ export default function Navbar() {
       setHidden(false);
     }
   })
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallDevice(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-    
-  }, []);
+
 
   return (
     <header className="sticky inset-x-0 top-0 p-6  z-50  ">
@@ -336,8 +328,8 @@ export default function Navbar() {
             <Image
               src="/assets/logoForGuessGame.png"
               alt="logo"
-              width={150}
-              height={150}
+              width={200}
+              height={200}
               className=""
             />
           </Link>
