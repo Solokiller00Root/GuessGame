@@ -7,12 +7,24 @@ import { useRouter } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
+import lottie from "lottie-web";
 
 export default function HeroSection() {
   const controls = useAnimation();
   const { data: session } = useSession();
   const router = useRouter();
 
+  const container1 = useRef(null);
+
+  useEffect(() => {
+    lottie.loadAnimation({
+      container: container1.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      animationData: require("@/public/assets/questionAni.json"),
+    });
+  }, []);
 
 
 useEffect(() => {
@@ -38,14 +50,15 @@ useEffect(() => {
       initial="hidden"
       animate={controls}
     >
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex  ">
         <div className="text-center">
-          <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-            <span className="block xl:inline">
+          
+          <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl py-10 h1">
+            <span className="block xl:inline ">
               How Good Are You at Guessing?
             </span>
           </h1>
-          <p className="mt-3 max-w-md mx-auto text-base text-gray-300 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          <p className="mt-3 max-w-md mx-auto text-base text-gray-300 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl py-5">
             Welcome to GuessGame, the ultimate guessing challenge where you can
             compete against other players to see who has the best guessing
             skills. With our competitive gameplay and simple interface, you can
@@ -63,6 +76,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
+      
       </div>
       
     </motion.section>

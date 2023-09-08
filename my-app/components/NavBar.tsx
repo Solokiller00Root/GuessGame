@@ -136,7 +136,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky inset-x-0 top-0 p-6  z-50  ">
-      <nav className="container flex justify-between mx-auto lg:hidden md:hidden sticky inset-x-0 top-0 p-6 bg-black/30 z-20 ">
+      <nav className="container-navbar flex justify-between mx-auto lg:hidden md:hidden sticky inset-x-0 top-0 p-6 bg-black/30 z-30 ">
         <motion.button
           initial="hide"
           animate={mobileNav ? "show" : "hide"}
