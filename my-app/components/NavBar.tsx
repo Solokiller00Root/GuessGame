@@ -7,14 +7,12 @@ import {
   AnimatePresence,
   MotionConfig,
   useScroll,
-  useMotionValueEvent
+  useMotionValueEvent,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "@/convex/_generated/api";
-
-
 
 function AuthButton() {
   const { data: session } = useSession();
@@ -29,9 +27,12 @@ function AuthButton() {
 
   useEffect(() => {
     if (session?.user?.name) {
-      createUser({ username: session?.user?.name })
+      createUser({
+        username: session?.user?.name,
+        image: session?.user?.image || "",
+      });
     }
-  }, [createUser, session?.user?.name])
+  }, [createUser, session?.user?.name, session?.user?.image]);
 
   const handleSignOut = () => {
     signOut();
@@ -118,8 +119,6 @@ export default function Navbar() {
   const [mobileNav, setMobileNav] = useState(false);
   const [isSmallDevice, setIsSmallDevice] = useState(false);
 
-
-
   const toggleMobileNav = () => {
     setMobileNav(!mobileNav);
   };
@@ -129,12 +128,10 @@ export default function Navbar() {
     const previous = scrollY.getPrevious();
     if (latest > previous) {
       setHidden(true);
-    }
-    else {
+    } else {
       setHidden(false);
     }
-  })
-
+  });
 
   return (
     <header className="sticky inset-x-0 top-0 p-6  z-50  ">
@@ -213,7 +210,6 @@ export default function Navbar() {
                     },
                   },
                 }}
-
                 initial="hide"
                 animate="show"
                 exit="hide"
@@ -232,21 +228,21 @@ export default function Navbar() {
                   }}
                   className="space-y-6 list-none  "
                 >
-                  <Link href={'/'}>
+                  <Link href={"/leaderboard"}>
                     <li>
                       <div className="text-5xl font-semibold text-white ">
                         Leaderboards
                       </div>
                     </li>
                   </Link>
-                  <Link href={'/'}>
+                  <Link href={"/"}>
                     <li>
                       <div className="text-5xl font-semibold text-white">
                         Join Game
                       </div>
                     </li>
                   </Link>
-                  <Link href={'/'}>
+                  <Link href={"/"}>
                     <li>
                       <div className="text-5xl font-semibold text-white">
                         Create Game
@@ -303,30 +299,27 @@ export default function Navbar() {
         variants={{
           visible: {
             y: 0,
-            opacity: 1
+            opacity: 1,
           },
           hidden: {
             y: "-100%",
-            opacity: 0
+            opacity: 0,
           },
         }}
-
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.35, ease: "easeInOut" }}
         className="sticky inset-x-0 top-0 p-6 bg-black/30 z-20 max-md:hidden"
       >
-
-
         <header className="">
           <motion.nav
             variants={{
               visible: {
                 y: 0,
-                opacity: 1
+                opacity: 1,
               },
               hidden: {
                 y: "-100%",
-                opacity: 0
+                opacity: 0,
               },
             }}
             animate={hidden ? "hidden" : "visible"}
@@ -349,7 +342,7 @@ export default function Navbar() {
                     whileTap={{ scale: 0.9 }}
                     className="text-white text-lg font-semibold cursor-pointer"
                   >
-                    <Link href="/">
+                    <Link href={"/leaderboard"}>
                       <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
                         Leaderboards
                       </div>
@@ -379,16 +372,12 @@ export default function Navbar() {
                   </motion.button>
                 </ul>
 
-
                 <AuthButton />
-
               </div>
             </nav>
           </motion.nav>
         </header>
       </motion.header>
     </header>
-
-
   );
 }

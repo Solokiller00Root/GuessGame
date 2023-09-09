@@ -7,7 +7,9 @@ import React from "react";
 
 export default function Profile() {
   const { data: session } = useSession();
-
+  const user = useQuery(api.user.getUserByUsername, {
+    username: session?.user?.name || "",
+  });
   if (!session) {
     return (
       <section className="w-screen h-[75vh] flex justify-center items-center text-white">
@@ -22,24 +24,17 @@ export default function Profile() {
         <div className="flex gap-4 items-center">
           <Image
             className="rounded-full"
-            src={session.user?.image || ""}
+            src={user?.image || ""}
             alt="Profile Avatar"
             width={50}
             height={50}
           />
-          <h1>{session.user?.name}</h1>
+          <h1>{user?.username}</h1>
         </div>
         <div>
-          {session.user ? <UserInfo username={session.user?.name} /> : null}
+          <h1>Points: {user?.points}</h1>
         </div>
       </div>
     </section>
   );
-}
-
-function UserInfo({ username }: { username: string | null | undefined }) {
-  const user = useQuery(api.user.getUserByUsername, {
-    username: username || "",
-  });
-  return <h1>Points: {user?.points}</h1>;
 }
