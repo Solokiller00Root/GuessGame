@@ -19,7 +19,7 @@ import { api } from "@/convex/_generated/api";
 function AuthButton() {
   const { data: session } = useSession();
 
-  const createUser = useMutation(api.user.createTask);
+  const createUser = useMutation(api.user.createUser);
 
   const [showMenu, setShowMenu] = useState(false);
   const { scrollY } = useScroll();
