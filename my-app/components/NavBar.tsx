@@ -1,5 +1,6 @@
 "use client";
 
+import { useMutation, useQuery } from "convex/react";
 import { useState, useEffect } from "react";
 import {
   motion,
@@ -11,17 +12,26 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { api } from "@/convex/_generated/api";
 
 
 
 function AuthButton() {
   const { data: session } = useSession();
+
+  const createUser = useMutation(api.user.createTask);
+
   const [showMenu, setShowMenu] = useState(false);
-  const {scrollY} = useScroll();
+  const { scrollY } = useScroll();
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
+  useEffect(() => {
+    if (session?.user?.name) {
+      createUser({ username: session?.user?.name })
+    }
+  }, [createUser, session?.user?.name])
 
   const handleSignOut = () => {
     signOut();
@@ -113,8 +123,8 @@ export default function Navbar() {
   const toggleMobileNav = () => {
     setMobileNav(!mobileNav);
   };
-  const {scrollY} = useScroll();
-  const [hidden,setHidden] = useState(false);
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
     if (latest > previous) {
@@ -203,7 +213,7 @@ export default function Navbar() {
                     },
                   },
                 }}
-                
+
                 initial="hide"
                 animate="show"
                 exit="hide"
@@ -290,95 +300,95 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
       <motion.header
-    variants={{
-      visible: {
-        y: 0,
-        opacity:1
-      },
-      hidden: {
-        y: "-100%",
-        opacity:0
-      },
-    }}
-    
-    animate={hidden ? "hidden" : "visible"}
-    transition={{duration: 0.35, ease: "easeInOut"}}
-    className="sticky inset-x-0 top-0 p-6 bg-black/30 z-20 max-md:hidden"
->
+        variants={{
+          visible: {
+            y: 0,
+            opacity: 1
+          },
+          hidden: {
+            y: "-100%",
+            opacity: 0
+          },
+        }}
+
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className="sticky inset-x-0 top-0 p-6 bg-black/30 z-20 max-md:hidden"
+      >
 
 
-    <header className="">
-    <motion.nav
-    variants={{
-      visible: {
-        y: 0,
-        opacity:1
-      },
-      hidden: {
-        y: "-100%",
-        opacity:0
-      },
-    }}
-    animate={hidden ? "hidden" : "visible"}
-    transition={{duration: 0.35, ease: "easeInOut"}}
-    >
-      <nav className="  max-md:hidden ">
-        <div className="flex justify-between items-center h-20   ">
-          <Link href={"/"}>
-            <Image
-              src="/assets/logoForGuessGame.png"
-              alt="logo"
-              width={200}
-              height={200}
-              className=""
-            />
-          </Link>
-          <ul className="flex flex-3 justify-between gap-10 max-lg:gap-4 ">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-white text-lg font-semibold cursor-pointer"
-            >
-              <Link href="/">
-                <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
-                  Leaderboards
-                </div>
-              </Link>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-white text-lg font-semibold cursor-pointer"
-            >
-              <Link href="/" className="Links">
-                <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
-                  Join Game
-                </div>
-              </Link>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="text-white text-lg font-semibold cursor-pointer"
-            >
-              <Link href="/" className="Links">
-                <div className="nav__link inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
-                  Create Game
-                </div>
-              </Link>
-            </motion.button>
-          </ul>
+        <header className="">
+          <motion.nav
+            variants={{
+              visible: {
+                y: 0,
+                opacity: 1
+              },
+              hidden: {
+                y: "-100%",
+                opacity: 0
+              },
+            }}
+            animate={hidden ? "hidden" : "visible"}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+          >
+            <nav className="  max-md:hidden ">
+              <div className="flex justify-between items-center h-20   ">
+                <Link href={"/"}>
+                  <Image
+                    src="/assets/logoForGuessGame.png"
+                    alt="logo"
+                    width={200}
+                    height={200}
+                    className=""
+                  />
+                </Link>
+                <ul className="flex flex-3 justify-between gap-10 max-lg:gap-4 ">
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="text-white text-lg font-semibold cursor-pointer"
+                  >
+                    <Link href="/">
+                      <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
+                        Leaderboards
+                      </div>
+                    </Link>
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="text-white text-lg font-semibold cursor-pointer"
+                  >
+                    <Link href="/" className="Links">
+                      <div className=" inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
+                        Join Game
+                      </div>
+                    </Link>
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="text-white text-lg font-semibold cursor-pointer"
+                  >
+                    <Link href="/" className="Links">
+                      <div className="nav__link inline-block bg-gradient-to-r from-[#8e2de2] to-[#4a00e0] text-white font-semibold py-2 px-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 hover:bg-[#8e2de2] hover:text-gray-100 hover:border-gray-100">
+                        Create Game
+                      </div>
+                    </Link>
+                  </motion.button>
+                </ul>
 
 
-          <AuthButton />
+                <AuthButton />
 
-        </div>
-      </nav>
-      </motion.nav>
-      </header>
+              </div>
+            </nav>
+          </motion.nav>
+        </header>
       </motion.header>
     </header>
-   
-  
+
+
   );
 }

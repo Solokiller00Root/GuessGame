@@ -1,13 +1,9 @@
-
-
 import "./globals.css";
 import type { Metadata } from "next";
-
 import SessionProvider from '@/lib/SessionProvider'
 import { getServerSession } from "next-auth";
 import Navbar from "@/components/NavBar";
-
-
+import ConvexClientProvider from "./ConvexClientProvider";
 
 export const metadata: Metadata = {
   title: "Guess Game",
@@ -23,15 +19,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background">
-          <SessionProvider session={session}>
-      <main>
-        <Navbar />
-        {children} 
+        <SessionProvider session={session}>
+          <ConvexClientProvider>
+            <main>
+              <Navbar />
+              {children}
+            </main>
+          </ConvexClientProvider>
+        </SessionProvider>
 
-      </main>
-       
-          </SessionProvider>
-        </body>
+      </body>
     </html>
   );
 }
