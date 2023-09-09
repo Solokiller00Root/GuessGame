@@ -1,11 +1,17 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
-import { X } from "lucide-react"
-import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { X } from "lucide-react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
 type ModalProps = {
   isOpen: boolean;
@@ -19,10 +25,10 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
         <DialogHeader>
           <DialogTitle>Ceate Game</DialogTitle>
           <DialogPrimitive.Close
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-stone-950 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-stone-100 data-[state=open]:text-stone-500 dark:ring-offset-stone-950 dark:focus:ring-stone-300 dark:data-[state=open]:bg-stone-800 dark:data-[state=open]:text-stone-400"
             onClick={onClose}
+            className="absolute CrossX  right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-stone-950 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-stone-100 data-[state=open]:text-stone-500 dark:ring-offset-stone-950 dark:focus:ring-stone-300 dark:data-[state=open]:bg-stone-800 dark:data-[state=open]:text-stone-400"
           >
-            <X className="w-4 h-4 " />
+            <X className="w-4 h-4 bg-white" />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         </DialogHeader>
@@ -51,7 +57,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                   name="default-radio"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800"
                 />
-                <Label htmlFor="private">Privacy</Label>
+                <Label htmlFor="private">Private</Label>
               </div>
               <div className="flex items-center gap-x-1">
                 <input
@@ -61,7 +67,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                   name="default-radio"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800"
                 />
-                <Label htmlFor="public">Privacy</Label>
+                <Label htmlFor="public">Public</Label>
               </div>
             </div>
           </div>
