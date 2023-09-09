@@ -34,6 +34,9 @@ li {
   height: 150px;
 }
 
+
+
+
 h1 {
   font-size: 3.2em;
 }
@@ -56,9 +59,10 @@ h1 {
   text-align: center;
 }
 
-.game {
-  display: grid;
-  grid-template-columns: 2fr 3fr;
+
+
+.input-word-game{
+    color: black;
 }
 
 .leaderboard .singlePlayerStat:nth-child(odd) {
@@ -74,21 +78,9 @@ h1 {
   width: 10px;
 }
 
-/* Track */
-.leaderboard::-webkit-scrollbar-track {
-  background-color: rgb(0 0 0 / 0.3);
-}
 
-/* Handle */
-.leaderboard::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
 
-/* Handle on hover */
-.leaderboard::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+
 
 .header {
   position: relative;
