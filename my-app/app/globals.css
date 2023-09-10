@@ -10,6 +10,28 @@ body {
   }
 }
 
+
+.shine-star {
+  animation: shine 1s infinite;
+  rotate: 180deg;
+}
+
+
+
+@keyframes shine {
+  0% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+ 
+}
+
 li {
   font-size: 1.25rem; /* Equivalent to text-xl */
 

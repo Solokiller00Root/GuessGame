@@ -1,12 +1,11 @@
 'use client'
 
-
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
+
 import { api } from "@/convex/_generated/api";
-
-
+import JoinGameModal from './custom-ui/JoinGameModal';
 
 export default function AvailableLobbies() {
   const getAllGames = useQuery(api.games.getAllGames)
@@ -14,8 +13,6 @@ export default function AvailableLobbies() {
   const [isTableVisible, setIsTableVisible] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-  const [games, setGames] = useState({});
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,9 +33,6 @@ export default function AvailableLobbies() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-
-  useEffect(() => {
   }, []);
 
   const titleVariants = {
@@ -71,6 +65,8 @@ export default function AvailableLobbies() {
       },
     },
   };
+
+  
 
   return (
     <div className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans container1 ">
@@ -116,11 +112,7 @@ export default function AvailableLobbies() {
                  {game.privacy}
                </td>
                <td className="py-3 px-4 border border-black">
-                 <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                   Join
-                 </button>
+                 <JoinGameModal gameId={game._id} />
                </td>
               </tr>)
           })}

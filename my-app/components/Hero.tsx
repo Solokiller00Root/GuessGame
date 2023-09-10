@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import Modal from "@/components/custom-ui/Modal";
+import CreateGameModal from "@/components/custom-ui/CreateGameModal";
 
 export default function HeroSection() {
   const controls = useAnimation();
@@ -57,7 +57,7 @@ export default function HeroSection() {
                   Play Now
                 </button>
               ) : (
-                <Modal />
+                <CreateGameModal />
               )}
             </div>
           </div>

@@ -31,6 +31,48 @@ export const createGame = mutation({
   
 });
 
+export const joinGame = mutation({
+args:{ 
+  gameId: v.id("games"),
+  userId: v.id("users"),
+  password: v.optional(v.string()),
+},
+handler: async (ctx, { gameId, userId,  password}) => {
+  const game = await ctx.db.get(gameId);
+  const user = await ctx.db.get(userId);
+
+  if( game && user) {
+    const players = game.players
+    if (!players.some((player) => player === user._id)) {
+      players.push(user._id)
+      await ctx.db.patch(gameId, { players: players });
+    }
+
+    if (game.password === password) {
+      return gameId
+    }
+    else {
+      return "Wrong password"
+    }
+    
+}
+}
+});
+
+
+
+export const getGameById = query({
+  args: { gameId: v.id("games")
+ },
+  handler: async (ctx, { gameId }) => {
+    const game = await ctx.db.get(gameId);
+    if(!game ) {
+      return null
+    }
+    return game;
+  },
+});
+
 export const getAllGames = query({
   handler: async (ctx) => {
     const games = await ctx.db.query("games").collect();

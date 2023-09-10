@@ -7,6 +7,7 @@ import React from "react";
 
 export default function Profile() {
   const { data: session } = useSession();
+  
   const user = useQuery(api.users.getUserByUsername, {
     username: session?.user?.name || "",
   });
