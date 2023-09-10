@@ -70,6 +70,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                 maxLength={20}
                 placeholder="Eagles"
                 className="col-span-3"
+                required
               />
             </div>
             <div className="grid items-center grid-cols-4 gap-4">
@@ -82,6 +83,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                 min={1}
                 max={10}
                 className="col-span-3"
+                required
               />
             </div>
             <div className="grid items-center grid-cols-4 gap-4">

@@ -20,21 +20,25 @@ export default function Profile() {
 
   return (
     <section className="w-screen h-[75vh] flex justify-center items-center text-white">
-      <div className="flex flex-col gap-4 items-center">
-        <div className="flex gap-4 items-center">
-          <Image
-            className="rounded-full"
-            src={user?.image || ""}
-            alt="Profile Avatar"
-            width={50}
-            height={50}
-          />
-          <h1>{user?.username}</h1>
+      {user ? (
+        <div className="flex flex-col gap-4 items-center">
+          <div className="flex gap-4 items-center">
+            <Image
+              className="rounded-full"
+              src={user.image}
+              alt="Profile Avatar"
+              width={50}
+              height={50}
+            />
+            <h1>{user.username}</h1>
+          </div>
+          <div>
+            <h1>Points: {user.points}</h1>
+          </div>
         </div>
-        <div>
-          <h1>Points: {user?.points}</h1>
-        </div>
-      </div>
+      ) : (
+        <h1 className="text-white">Loading User Info...</h1>
+      )}
     </section>
   );
 }
