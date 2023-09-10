@@ -1,18 +1,16 @@
-'use client'
+"use client";
 
 import { useRouter } from "next/navigation";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Modal from "@/components/Modal";
-import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   const controls = useAnimation();
   const { data: session } = useSession();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
-
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -28,7 +26,9 @@ export default function HeroSection() {
 
   const handlePlayNowClick = () => {
     if (!session) {
-      router.push("/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F");
+      router.push(
+        "/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
+      );
     } else {
       setShowModal(true);
     }

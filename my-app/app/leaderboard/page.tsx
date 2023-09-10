@@ -6,7 +6,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Leaderboard() {
-  const topTenUsers = useQuery(api.user.getTopTenUsers);
+  const topTenUsers = useQuery(api.users.getTopTenUsers);
 
   return (
     <section className="w-screen h-[75vh] flex flex-col justify-center items-center text-white">
@@ -56,13 +56,6 @@ export default function Leaderboard() {
           })}
         </tbody>
       </table>
-      {/*       
-          return (
-            <li key={user._id}>
-              {index + 1}- {user.username}: {user.points}
-            </li>
-          );
-      */}
     </section>
   );
 }
