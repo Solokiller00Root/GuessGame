@@ -14,5 +14,6 @@ export default defineSchema({
     rounds: v.array(v.object({ word: v.string(), status: v.string() })),
     status: v.string(),
     players: v.array(v.id("users")),
+    password: v.optional(v.string()),
   }),
 });

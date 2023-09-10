@@ -13,7 +13,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 type ModalProps = {
@@ -22,6 +22,11 @@ type ModalProps = {
 };
 
 export default function Modal({ isOpen, onClose }: ModalProps) {
+  const [publicGame, setPublicGame] = useState("public");
+  const [name, setName] = useState("");
+  const [roundNumber, setRoundNumber] = useState(5);
+  const [password, setPassword] = useState("");
+
   const { data: session } = useSession();
   const router = useRouter();
   const user = useQuery(api.users.getUserByUsername, {
@@ -31,9 +36,9 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
 
   async function handlleCreateGame(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const gameName = e.target.elements.name.value;
-    const roundsNumber = Number(e.target.elements.rounds.value);
-    const privacy = e.target.elements.public.checked ? "public" : "private";
+    const gameName = name;
+    const roundsNumber = roundNumber;
+    const privacy = publicGame;
     if (user) {
       const gameId = await createGame({
         name: gameName,
@@ -42,6 +47,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
         rounds: roundsNumber,
         status: "waiting",
         players: [user._id],
+        password: password,
       });
       router.push(`/play/${gameId}`);
     }
@@ -70,6 +76,8 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                 maxLength={20}
                 placeholder="Eagles"
                 className="col-span-3"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
@@ -79,36 +87,55 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
                 type="number"
                 placeholder="5"
                 id="rounds"
-                defaultValue={5}
                 min={1}
                 max={10}
                 className="col-span-3"
+                value={roundNumber}
+                onChange={(e) => setRoundNumber(Number(e.target.value))}
                 required
               />
             </div>
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="private">Privacy</Label>
               <div className="flex col-span-3 gap-x-4">
-                <div className="flex items-center gap-x-1">
+                <div
+                  onChange={(e) => setPublicGame(e.target.value)}
+                  className="flex items-center gap-x-1"
+                >
                   <input
                     id="private"
                     type="radio"
+                    value="private"
                     name="privacy"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800"
                   />
                   <Label htmlFor="private">Private</Label>
-                </div>
-                <div className="flex items-center gap-x-1">
                   <input
                     id="public"
-                    defaultChecked
                     type="radio"
+                    value="public"
                     name="privacy"
+                    defaultChecked
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800"
                   />
                   <Label htmlFor="public">Public</Label>
                 </div>
               </div>
+              {publicGame === "private" ? (
+                <div className="items-center flex gap-4">
+                  <Label htmlFor="password">Password</Label>
+                  <input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    minLength={5}
+                    maxLength={20}
+                    className="col-span-3"
+                    required
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
           <DialogFooter>

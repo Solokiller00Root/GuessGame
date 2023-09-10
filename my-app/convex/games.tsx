@@ -9,8 +9,9 @@ export const createGame = mutation({
     rounds: v.number(),
     status: v.string(),
     players: v.array(v.id("users")),
+    password: v.string(),
   },
-  handler: async (ctx, { name, owner, privacy, rounds }) => {
+  handler: async (ctx, { name, owner, privacy, rounds, password }) => {
     const roundsArr = new Array(rounds).fill({});
     roundsArr.forEach((round) => {
       round.word = "word";
@@ -23,6 +24,7 @@ export const createGame = mutation({
       rounds: roundsArr,
       status: "waiting",
       players: [owner],
+      password: password,
     });
     return gameId;
   },
