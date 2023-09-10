@@ -86,16 +86,19 @@ export default function CreateGameModal() {
               onChange={(e) => updateFormData("rounds", +e.target.value)}
             />
           </div>
-          <div className="grid items-center grid-cols-4 gap-4">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="text"
-              placeholder="12345"
-              id="password"
-              className="col-span-3"
-              onChange={(e) => updateFormData("password", e.target.value)}
-            />
-          </div>
+          {formData.privacy === "private" ? (
+            <div className="grid items-center grid-cols-4 gap-4">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                type="text"
+                placeholder="12345"
+                id="password"
+                className="col-span-3"
+                onChange={(e) => updateFormData("password", e.target.value)}
+              />
+            </div>
+          ) : null}
+
           <div className="grid items-center grid-cols-4 gap-4">
             <Label htmlFor="private">Privacy</Label>
             <div
