@@ -18,8 +18,8 @@ import BurgerMenu from "./custom-ui/navbar/BurgerMenu";
 import GuessLogo from "./custom-ui/navbar/GuessLogo";
 
 const links = [
-  { title: "Leadboard", url: "/leadboards" },
-  { title: "Join Game", url: "/" },
+  { title: "Leadboard", url: "/leaderboard" },
+  { title: "Join Game", url: "/#games" },
   { title: "Create Game", url: "/" },
 ];
 
@@ -90,8 +90,8 @@ export default function Navbar() {
                   }}
                   className="space-y-6 list-none "
                 >
-                  {links.map((link) => (
-                    <Link href={link.url}>
+                  {links.map((link, index) => (
+                    <Link key={index} href={link.url}>
                       <li>
                         <div className="text-5xl font-semibold text-white ">
                           {link.title}
@@ -177,8 +177,9 @@ export default function Navbar() {
                   />
                 </Link>
                 <ul className="flex justify-between gap-10 flex-3 max-lg:gap-4 ">
-                  {links.map((link) => (
+                  {links.map((link, index) => (
                     <motion.button
+                      key={index}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className="text-lg font-semibold text-white cursor-pointer"
