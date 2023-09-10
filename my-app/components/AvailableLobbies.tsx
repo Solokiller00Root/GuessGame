@@ -3,12 +3,19 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
+
 
 export default function AvailableLobbies() {
+  const getAllGames = useQuery(api.games.getAllGames)
   const [isTitleVisible, setIsTitleVisible] = useState(false);
   const [isTableVisible, setIsTableVisible] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
+  const [games, setGames] = useState({});
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +36,9 @@ export default function AvailableLobbies() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
   }, []);
 
   const titleVariants = {
@@ -96,47 +106,28 @@ export default function AvailableLobbies() {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-black/30 hover:bg-black/50">
-              <td className="py-3 px-4 border border-black text-lg">Lobby 1</td>
-              <td className="py-3 px-4 border border-black text-lg">4/8</td>
-              <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
-                Open
-              </td>
-              <td className="py-3 px-4 border border-black">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Join
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-black/30 hover:bg-black/50">
-              <td className="py-3 px-4 border border-black text-lg">Lobby 1</td>
-              <td className="py-3 px-4 border border-black text-lg">4/8</td>
-              <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
-                Open
-              </td>
-              <td className="py-3 px-4 border border-black">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Join
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-black/30 hover:bg-black/50">
-              <td className="py-3 px-4 border border-black text-lg">Lobby 1</td>
-              <td className="py-3 px-4 border border-black text-lg">4/8</td>
-              <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
-                Open
-              </td>
-              <td className="py-3 px-4 border border-black">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  Join
-                </button>
-              </td>
-            </tr>
+
+          {getAllGames?.map((game) => {
+            return(
+               <tr key={game._id} className="bg-black/30 hover:bg-black/50">
+               <td className="py-3 px-4 border border-black text-lg">{game.name}</td>
+               <td className="py-3 px-4 border border-black text-lg">{game.players.length} / 5</td>
+               <td className="py-3 px-4 border border-black text-green-600 font-bold text-lg">
+                 {game.privacy}
+               </td>
+               <td className="py-3 px-4 border border-black">
+                 <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                   Join
+                 </button>
+               </td>
+              </tr>)
+          })}
+           
           </tbody>
         </motion.table>
       </div>
     </div>
   );
 }
-
-

@@ -28,4 +28,12 @@ export const createGame = mutation({
     });
     return gameId;
   },
+  
 });
+
+export const getAllGames = query({
+  handler: async (ctx) => {
+    const games = await ctx.db.query("games").collect();
+    return games
+  }}
+  );
