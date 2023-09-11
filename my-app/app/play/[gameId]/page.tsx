@@ -27,17 +27,9 @@ export default function Play() {
     }
   }, [checkGameIsValid, router]);
 
- 
-
   return (
-    <div>
-      {checkGameIsValid ? (
-        <Game />
-      ) : (
-        <section className="w-screen h-[75vh] flex justify-center items-center text-white">
-          <h1>LOADING GAME INFO...</h1>
-        </section>
-      )}
-    </div>
+    <section className="w-screen h-[75vh] flex justify-center items-center text-white">
+      {checkGameIsValid ? <Game /> : <h1>LOADING GAME INFO...</h1>}
+    </section>
   );
 }

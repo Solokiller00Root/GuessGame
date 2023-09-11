@@ -56,10 +56,19 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
     );
   }
 
+  const joinGameIfAlreadyJoined = async () => {
+    if (game && user && game.players.find((id) => id === user?._id)) {
+      router.push(`/play/${gameId}`);
+    }
+  };
+
   return (
     <Modal
       triggerButton={
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button
+          onClick={joinGameIfAlreadyJoined}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
           Join
         </button>
       }
