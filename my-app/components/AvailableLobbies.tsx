@@ -3,7 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "convex/react";
-
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { api } from "@/convex/_generated/api";
 import JoinGameModal from "./custom-ui/JoinGameModal";
 
@@ -13,7 +14,8 @@ export default function AvailableLobbies() {
   const [isTableVisible, setIsTableVisible] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-
+  const { data: session } = useSession();
+  const router = useRouter();
   useEffect(() => {
     const handleScroll = () => {
       if (titleRef.current) {
@@ -34,6 +36,12 @@ export default function AvailableLobbies() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleAuth = () => {
+    router.push(
+      "/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
+    );
+  };
 
   const titleVariants = {
     hidden: {
@@ -118,7 +126,13 @@ export default function AvailableLobbies() {
                     {game.privacy}
                   </td>
                   <td className="py-3 px-4 border border-black">
-                    <JoinGameModal gameId={game._id} />
+                    {!session ? (
+                      <button onClick={handleAuth} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Join
+                      </button>
+                    ) : (
+                      <JoinGameModal gameId={game?._id} />
+                    )}
                   </td>
                 </tr>
               );

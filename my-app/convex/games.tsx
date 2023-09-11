@@ -9,7 +9,7 @@ export const createGame = mutation({
     rounds: v.number(),
     status: v.string(),
     players: v.array(v.id("users")),
-    password: v.string(),
+    password: v.union(v.string(), v.null()),
   },
   handler: async (ctx, { name, owner, privacy, rounds, password }) => {
     const roundsArr = new Array(rounds).fill({});

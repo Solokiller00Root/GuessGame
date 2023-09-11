@@ -20,7 +20,7 @@ type FormDataType = {
 export default function CreateGameModal() {
   const [formData, setFormData] = useState<FormDataType>({
     gameName: "",
-    privacy: "private",
+    privacy: "public",
     rounds: 0,
     password: "",
   });
@@ -49,10 +49,12 @@ export default function CreateGameModal() {
         rounds: formData.rounds,
         status: "waiting",
         players: [user._id],
-        password: formData.password,
+        password: formData.privacy === 'private' ? formData.password : null,
       });
       router.push(`/play/${gameId}`);
     }
+
+   
   };
 
   return (
@@ -74,6 +76,9 @@ export default function CreateGameModal() {
               placeholder="Eagles"
               className="col-span-3"
               onChange={(e) => updateFormData("gameName", e.target.value)}
+              required
+              minLength={6}
+              maxLength={15}
             />
           </div>
           <div className="grid items-center grid-cols-4 gap-4">
@@ -84,9 +89,13 @@ export default function CreateGameModal() {
               id="rounds"
               className="col-span-3"
               onChange={(e) => updateFormData("rounds", +e.target.value)}
+              required
+              min={1}
+              max={10}
             />
           </div>
-          {formData.privacy === "private" ? (
+
+          {formData.privacy === "private" &&  (
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="password">Password</Label>
               <Input
@@ -95,9 +104,12 @@ export default function CreateGameModal() {
                 id="password"
                 className="col-span-3"
                 onChange={(e) => updateFormData("password", e.target.value)}
+                required
+                minLength={3}
+                maxLength={12}
               />
             </div>
-          ) : null}
+          )}
 
           <div className="grid items-center grid-cols-4 gap-4">
             <Label htmlFor="private">Privacy</Label>
@@ -105,7 +117,7 @@ export default function CreateGameModal() {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 updateFormData("privacy", e.target.value)
               }
-              className="flex col-span-3 gap-x-4"
+              className={`flex col-span-3 gap-x-4`}
             >
               <div className="flex items-center gap-x-1">
                 <input
@@ -123,6 +135,7 @@ export default function CreateGameModal() {
                   type="radio"
                   value="public"
                   name="radio"
+                  defaultChecked
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:ring-offset-gray-800"
                 />
                 <Label htmlFor="public">Public</Label>

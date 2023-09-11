@@ -36,6 +36,9 @@ export default function Navbar() {
       setHidden(false);
     }
   });
+  const closeNav = () => {
+    setMobileNav(false);
+  };
 
   return (
     <header className="sticky inset-x-0 top-0 z-50 p-6 ">
@@ -91,7 +94,8 @@ export default function Navbar() {
                   className="space-y-6 list-none "
                 >
                   {links.map((link, index) => (
-                    <Link key={index} href={link.url}>
+                    <Link key={index} href={link.url}
+                    onClick={closeNav}>
                       <li>
                         <div className="text-5xl font-semibold text-white ">
                           {link.title}
