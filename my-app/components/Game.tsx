@@ -39,7 +39,7 @@ export default function Game() {
 
   if (!game || !players) {
     <section className="w-screen h-[75vh] flex justify-center items-center text-white">
-      <h1>LOADING GAME INFO!</h1>
+      <h1>LOADING GAME INFO...</h1>
     </section>;
   }
 

@@ -67,6 +67,20 @@ export const getGameById = query({
   },
 });
 
+export const checkGameIsValid = query({
+  args: { gameId: v.any() },
+  handler: async (ctx, { gameId }) => {
+    const game = await ctx.db
+      .query("games")
+      .filter((q) => q.eq(q.field("_id"), gameId))
+      .collect();
+    if (game.length > 0) {
+      return true;
+    }
+    return false;
+  },
+});
+
 export const getAllGames = query({
   handler: async (ctx) => {
     const games = await ctx.db.query("games").collect();
