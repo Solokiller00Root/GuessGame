@@ -11,8 +11,18 @@ export default defineSchema({
     name: v.string(),
     owner: v.id("users"),
     privacy: v.string(),
-    rounds: v.array(v.object({ word: v.string(), status: v.string() })),
-    status: v.string(),
+    logs: v.array(v.string()),
+    rounds: v.array(
+      v.object({
+        word: v.string(),
+        status: v.union(v.literal("ongoing"), v.literal("guessed")),
+      })
+    ),
+    status: v.union(
+      v.literal("waiting"),
+      v.literal("ongoing"),
+      v.literal("finished")
+    ),
     players: v.array(v.id("users")),
     password: v.union(v.string(), v.null()),
   }),

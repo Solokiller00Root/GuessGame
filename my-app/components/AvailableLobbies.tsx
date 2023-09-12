@@ -114,6 +114,8 @@ export default function AvailableLobbies() {
           </thead>
           <tbody>
             {getAllGames?.map((game) => {
+              if (game.status === "ongoing" || game.status === "finished")
+                return;
               return (
                 <tr key={game._id} className="bg-black/30 hover:bg-black/50">
                   <td className="py-3 px-4 border border-black text-lg">
@@ -127,7 +129,10 @@ export default function AvailableLobbies() {
                   </td>
                   <td className="py-3 px-4 border border-black">
                     {!session ? (
-                      <button onClick={handleAuth} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      <button
+                        onClick={handleAuth}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
                         Join
                       </button>
                     ) : (

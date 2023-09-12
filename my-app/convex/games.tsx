@@ -1,5 +1,16 @@
-import { mutation, query } from "./_generated/server";
+import { action, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+
+export const getRandomWord = action({
+  args: { rounds: v.number() },
+  handler: async (ctx, args) => {
+    const res = await fetch(
+      `https://random-word-api.herokuapp.com/word?number=${args.rounds}`
+    );
+    const data = await res.json();
+    return data;
+  },
+});
 
 export const createGame = mutation({
   args: {
@@ -7,24 +18,24 @@ export const createGame = mutation({
     owner: v.id("users"),
     privacy: v.string(),
     rounds: v.number(),
-    status: v.string(),
+    words: v.array(v.string()),
     players: v.array(v.id("users")),
     password: v.union(v.string(), v.null()),
   },
-  handler: async (ctx, { name, owner, privacy, rounds, password }) => {
+  handler: async (ctx, { name, owner, privacy, rounds, password, words }) => {
     const roundsArr = new Array(rounds).fill({});
-    roundsArr.forEach((round) => {
-      round.word = "word";
-      round.status = "waiting";
-    });
+    for (let i = 0; i < roundsArr.length; i++) {
+      roundsArr[i] = { word: words[i], status: "ongoing" };
+    }
     const gameId = await ctx.db.insert("games", {
       name,
       owner,
       privacy,
+      logs: [],
       rounds: roundsArr,
       status: "waiting",
       players: [owner],
-      password: password,
+      password,
     });
     return gameId;
   },
@@ -98,5 +109,53 @@ export const getGamePlayers = query({
       })
     );
     return usersArr;
+  },
+});
+
+export const updateGameStatus = mutation({
+  args: {
+    gameId: v.id("games"),
+    status: v.union(
+      v.literal("waiting"),
+      v.literal("ongoing"),
+      v.literal("finished")
+    ),
+  },
+  handler: async (ctx, { gameId, status }) => {
+    const game = await ctx.db.get(gameId);
+    if (game) {
+      await ctx.db.patch(gameId, { status: status });
+    }
+  },
+});
+
+export const updateRoundStatus = mutation({
+  args: {
+    gameId: v.id("games"),
+    roundIndex: v.number(),
+    status: v.union(v.literal("ongoing"), v.literal("guessed")),
+  },
+  handler: async (ctx, { gameId, roundIndex, status }) => {
+    const game = await ctx.db.get(gameId);
+    if (game) {
+      const rounds = game.rounds;
+      rounds[roundIndex].status = status;
+      await ctx.db.patch(gameId, { rounds: rounds });
+    }
+  },
+});
+
+export const updateGameLogs = mutation({
+  args: {
+    gameId: v.id("games"),
+    log: v.string(),
+  },
+  handler: async (ctx, { gameId, log }) => {
+    const game = await ctx.db.get(gameId);
+    if (game) {
+      const logs = game.logs;
+      logs.push(log);
+      await ctx.db.patch(gameId, { logs: logs });
+    }
   },
 });

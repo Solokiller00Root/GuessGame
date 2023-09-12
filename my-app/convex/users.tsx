@@ -36,3 +36,13 @@ export const getTopTenUsers = query({
     return topTenUsers;
   },
 });
+
+export const updatePlayerPoints = mutation({
+  args: { userId: v.id("users"), points: v.number() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.userId);
+    if (user) {
+      await ctx.db.patch(args.userId, { points: user.points + args.points });
+    }
+  },
+});

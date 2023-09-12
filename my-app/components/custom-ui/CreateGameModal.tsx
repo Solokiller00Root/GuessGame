@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useMutation, useQuery } from "convex/react";
+import { useAction, useMutation, useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,7 @@ export default function CreateGameModal() {
     username: session?.user?.name || "",
   });
   const createGame = useMutation(api.games.createGame);
+  const getRandomWord = useAction(api.games.getRandomWord);
 
   const updateFormData = (field: string, value: string | number) => {
     setFormData((prev) => ({
@@ -42,19 +43,18 @@ export default function CreateGameModal() {
     e.preventDefault();
 
     if (user) {
+      const words = await getRandomWord({ rounds: formData.rounds });
       const gameId = await createGame({
         name: formData.gameName,
         owner: user._id,
         privacy: formData.privacy,
         rounds: formData.rounds,
-        status: "waiting",
         players: [user._id],
-        password: formData.privacy === 'private' ? formData.password : null,
+        words,
+        password: formData.privacy === "private" ? formData.password : null,
       });
       router.push(`/play/${gameId}`);
     }
-
-   
   };
 
   return (
@@ -95,7 +95,7 @@ export default function CreateGameModal() {
             />
           </div>
 
-          {formData.privacy === "private" &&  (
+          {formData.privacy === "private" && (
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="password">Password</Label>
               <Input
