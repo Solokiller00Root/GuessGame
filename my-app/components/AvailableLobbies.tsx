@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "convex/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { api } from "@/convex/_generated/api";
 import JoinGameModal from "./custom-ui/JoinGameModal";
@@ -36,6 +36,8 @@ export default function AvailableLobbies() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+
 
   const handleAuth = () => {
     router.push(

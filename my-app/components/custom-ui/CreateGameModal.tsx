@@ -9,6 +9,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Modal from "./Modal";
+import  Link  from "next/link";
 
 type FormDataType = {
   gameName: string;
@@ -144,7 +145,7 @@ export default function CreateGameModal() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Create Lobby</Button>
+          <Button type="submit">Play Now</Button>
         </DialogFooter>
       </form>
     </Modal>

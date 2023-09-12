@@ -9,6 +9,9 @@ import { Id } from "@/convex/_generated/dataModel";
 import JoinGameModal from "./custom-ui/JoinGameModal";
 import { useSession } from "next-auth/react";
 
+
+
+
 export default function Game() {
   const [guessedWord, setGuessedWord] = useState("");
   const { data: session } = useSession();
@@ -39,37 +42,46 @@ export default function Game() {
     if (players?.length === 5) {
       updateGameStatus({ gameId, status: "ongoing" });
     }
-  }, [players, gameId, updateGameStatus]);
+  }, [players, gameId, updateGameStatus, game, route]);
 
   const handleGuessWord = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateGameLogs({
-      gameId,
-      log: `${user?.username} guessed the word: ${guessedWord}`,
-    });
+
+    const guessWordCorrect = false;
     game?.rounds.forEach((round, index) => {
       if (guessedWord === round.word && user && user._id) {
-        players?.forEach((player) => {
-          if (player?._id === user._id) {
-            setPlayerPoints((prev) => prev + 1);
-            updatePlayerPoints({
-              userId: user._id,
-              points: 1,
-            });
-          }
-        });
+        const guessedPlayer = players?.find(
+          (player) => player?._id === user._id
+        );
+        if (guessedPlayer) {
+          setPlayerPoints((prev) => prev + 1);
+          updatePlayerPoints({
+            userId: user._id,
+            points: 1,
+          });
+        }
         updateRoundStatus({
           gameId: game?._id,
           roundIndex: index,
           status: "guessed",
         });
+        const guessWordCorrect = true;
         if (index + 1 >= game?.rounds.length) {
           updateGameStatus({ gameId: game?._id, status: "finished" });
         }
+
+        updateGameLogs({
+          gameId,
+          log: `${user?.username} guessed the word: ${guessedWord}`,
+        });
         return;
       }
     });
+
     setGuessedWord("");
+    if (guessWordCorrect) {
+      return;
+    }
   };
 
   if (!game || !players) {
@@ -84,7 +96,7 @@ export default function Game() {
     return <JoinGameModal gameId={gameId} />;
   }
   return (
-    <div className="border bg-black/30 border-white rounded-xl w-11/12 md:w-3/5 h-4/5 game flex flex-col md:flex-row">
+    <div className="border bg-black/30 border-white rounded-xl w-11/12 md:w-3/5 h-4/5 game flex flex-col md:flex-row game">
       <div className="border-r-2 border-white p-4 flex flex-col items-center justify-between md:w-1/3">
         <div className="text-xl mb-4">Game Leaderboard</div>
         <div className="flex flex-col gap-2 flex-1 w-full">
@@ -125,7 +137,7 @@ export default function Game() {
       </div>
       {game.status === "ongoing" ? (
         <div className="flex flex-col items-center justify-between my-6 md:w-2/3">
-          <h1 className="text-2xl md:text-4xl font-bold">Guess the word:</h1>
+          <h1 className="text-2xl md:text-4xl font-bold ">Guess the word:</h1>
           <h1 className="text-4xl md:text-6xl font-bold">
             {game?.rounds.find((round) => round.status === "ongoing")?.word}
           </h1>
@@ -163,7 +175,7 @@ export default function Game() {
         </div>
       ) : game.status === "waiting" ? (
         <div className="flex flex-col items-center justify-center gap-4 my-6 md:w-2/3">
-          <h1 className="text-2xl md:text-4xl font-bold">
+          <h1 className="text-2xl md:text-4xl font-bold text-center">
             Waiting for players to join...
           </h1>
           {game.owner === user?._id && (
@@ -171,11 +183,14 @@ export default function Game() {
               onClick={() => {
                 updateGameStatus({ gameId: game?._id, status: "ongoing" });
               }}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-5 rounded"
+              className="bg-blue-500 m-10 hover:bg-blue-700 text-white font-bold py-3 px-5 rounded"
             >
               Start Game!
             </button>
           )}
+          <div className="mt-4">
+           
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 my-6 md:w-2/3">

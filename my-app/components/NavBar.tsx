@@ -16,12 +16,18 @@ import { api } from "@/convex/_generated/api";
 import AuthButton from "./custom-ui/navbar/AuthButton";
 import BurgerMenu from "./custom-ui/navbar/BurgerMenu";
 import GuessLogo from "./custom-ui/navbar/GuessLogo";
+import CreateGameModal from "./custom-ui/CreateGameModal";
+
+
+
+
 
 const links = [
   { title: "Leadboard", url: "/leaderboard" },
   { title: "Join Game", url: "/#games" },
-  { title: "Create Game", url: "/" },
+  { title: "Create Game", url: "/"},
 ];
+
 
 export default function Navbar() {
   const [mobileNav, setMobileNav] = useState(false);

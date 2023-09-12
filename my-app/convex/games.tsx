@@ -8,10 +8,14 @@ export const getRandomWord = action({
       `https://random-word-api.herokuapp.com/word?number=${args.rounds}`
     );
     const data = await res.json();
+    // Shuffle the array of words using the Fisher-Yates shuffle algorithm
+    for (let i = data.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [data[i], data[j]] = [data[j], data[i]];
+    }
     return data;
   },
 });
-
 export const createGame = mutation({
   args: {
     name: v.string(),
