@@ -16,6 +16,7 @@ export default defineSchema({
       v.object({
         word: v.string(),
         status: v.union(v.literal("ongoing"), v.literal("guessed")),
+        brokenWord: v.string(),
       })
     ),
     status: v.union(
@@ -23,7 +24,7 @@ export default defineSchema({
       v.literal("ongoing"),
       v.literal("finished")
     ),
-    players: v.array(v.id("users")),
+    players: v.array(v.object({ id: v.id("users"), points: v.number() })),
     password: v.union(v.string(), v.null()),
   }),
 });

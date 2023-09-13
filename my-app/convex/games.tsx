@@ -5,14 +5,9 @@ export const getRandomWord = action({
   args: { rounds: v.number() },
   handler: async (ctx, args) => {
     const res = await fetch(
-      `https://random-word-api.herokuapp.com/word?number=${args.rounds}`
+      `https://random-word-api.herokuapp.com/word?number=${args.rounds}&length=5`
     );
     const data = await res.json();
-    // Shuffle the array of words using the Fisher-Yates shuffle algorithm
-    for (let i = data.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [data[i], data[j]] = [data[j], data[i]];
-    }
     return data;
   },
 });
@@ -29,7 +24,12 @@ export const createGame = mutation({
   handler: async (ctx, { name, owner, privacy, rounds, password, words }) => {
     const roundsArr = new Array(rounds).fill({});
     for (let i = 0; i < roundsArr.length; i++) {
-      roundsArr[i] = { word: words[i], status: "ongoing" };
+      const word = words[i];
+      const wordArr = word.split("");
+      const shuffledWord = wordArr.sort(() => Math.random() - 0.5);
+      const brokenWord = shuffledWord.join("");
+      words[i] = brokenWord;
+      roundsArr[i] = { word, status: "ongoing", brokenWord };
     }
     const gameId = await ctx.db.insert("games", {
       name,
@@ -38,7 +38,7 @@ export const createGame = mutation({
       logs: [],
       rounds: roundsArr,
       status: "waiting",
-      players: [owner],
+      players: [{ id: owner, points: 0 }],
       password,
     });
     return gameId;
@@ -57,8 +57,8 @@ export const joinGame = mutation({
 
     if (game && user) {
       const players = game.players;
-      if (!players.some((player) => player === user._id)) {
-        players.push(user._id);
+      if (!players.some((player) => player.id === user._id)) {
+        players.push({ id: user._id, points: 0 });
         await ctx.db.patch(gameId, { players: players });
       }
 
@@ -104,11 +104,13 @@ export const getAllGames = query({
 });
 
 export const getGamePlayers = query({
-  args: { players: v.array(v.id("users")) },
+  args: {
+    players: v.array(v.object({ id: v.id("users"), points: v.number() })),
+  },
   handler: async (ctx, { players }) => {
     const usersArr = await Promise.all(
-      players.map(async (playerId) => {
-        const userInfo = await ctx.db.get(playerId);
+      players.map(async (player) => {
+        const userInfo = await ctx.db.get(player.id);
         return userInfo;
       })
     );
@@ -160,6 +162,37 @@ export const updateGameLogs = mutation({
       const logs = game.logs;
       logs.push(log);
       await ctx.db.patch(gameId, { logs: logs });
+    }
+  },
+});
+
+export const updateInGamePlayerPoints = mutation({
+  args: {
+    userId: v.id("users"),
+    gameId: v.id("games"),
+    points: v.number(),
+  },
+  handler: async (ctx, { userId, points, gameId }) => {
+    const game = await ctx.db.get(gameId);
+    if (game) {
+      const players = game.players;
+      const player = players.find((player) => player.id === userId);
+      if (player) {
+        player.points += points;
+        await ctx.db.patch(gameId, { players: players });
+      }
+    }
+  },
+});
+
+export const getSortedPlayers = query({
+  args: { gameId: v.id("games") },
+  handler: async (ctx, { gameId }) => {
+    const game = await ctx.db.get(gameId);
+    if (game) {
+      const players = game.players;
+      const sortedPlayers = players.sort((a, b) => b.points - a.points);
+      return sortedPlayers;
     }
   },
 });

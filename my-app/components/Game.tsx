@@ -9,9 +9,6 @@ import { Id } from "@/convex/_generated/dataModel";
 import JoinGameModal from "./custom-ui/JoinGameModal";
 import { useSession } from "next-auth/react";
 
-
-
-
 export default function Game() {
   const [guessedWord, setGuessedWord] = useState("");
   const { data: session } = useSession();
@@ -20,23 +17,22 @@ export default function Game() {
   const gameId = params.gameId as Id<"games">;
   const game = useQuery(api.games.getGameById, { gameId });
   const joinGame = useMutation(api.games.joinGame);
+  const getSortedPlayers = useQuery(api.games.getSortedPlayers, {
+    gameId,
+  });
   const players = useQuery(api.games.getGamePlayers, {
-    players: game?.players || [],
+    players: getSortedPlayers || [],
   });
   const user = useQuery(api.users.getUserByUsername, {
     username: session?.user?.name || "",
   });
   const updatePlayerPoints = useMutation(api.users.updatePlayerPoints);
+  const updateInGamePlayerPoints = useMutation(
+    api.games.updateInGamePlayerPoints
+  );
   const updateRoundStatus = useMutation(api.games.updateRoundStatus);
   const updateGameStatus = useMutation(api.games.updateGameStatus);
-  const [playerPoints, setPlayerPoints] = useState(0);
   const updateGameLogs = useMutation(api.games.updateGameLogs);
-  players?.sort((a, b) => {
-    if (a && b) {
-      return a.points - b.points || a.username.localeCompare(b.username);
-    }
-    return 0;
-  });
 
   useEffect(() => {
     if (players?.length === 5) {
@@ -46,16 +42,14 @@ export default function Game() {
 
   const handleGuessWord = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const guessWordCorrect = false;
     game?.rounds.forEach((round, index) => {
-      if (guessedWord === round.word && user && user._id) {
+      if (guessedWord.toLocaleLowerCase() === round.word && user && user._id) {
         const guessedPlayer = players?.find(
           (player) => player?._id === user._id
         );
         if (guessedPlayer) {
-          setPlayerPoints((prev) => prev + 1);
-          updatePlayerPoints({
+          updateInGamePlayerPoints({
+            gameId: game?._id,
             userId: user._id,
             points: 1,
           });
@@ -65,9 +59,15 @@ export default function Game() {
           roundIndex: index,
           status: "guessed",
         });
-        const guessWordCorrect = true;
         if (index + 1 >= game?.rounds.length) {
+          const player = game.players?.find(
+            (player) => player?.id === user._id
+          );
           updateGameStatus({ gameId: game?._id, status: "finished" });
+          updatePlayerPoints({
+            userId: user._id,
+            points: player?.points || 0,
+          });
         }
 
         updateGameLogs({
@@ -77,18 +77,18 @@ export default function Game() {
         return;
       }
     });
-
     setGuessedWord("");
-    if (guessWordCorrect) {
-      return;
-    }
   };
 
   if (!game || !players) {
-    return <h1>LOADING GAME INFO...</h1>;
+    return;
   }
 
-  if (game && user && !game?.players.find((id) => id === user?._id)) {
+  if (
+    game &&
+    user &&
+    !game?.players.find((player) => player.id === user?._id)
+  ) {
     if (game.privacy === "public") {
       joinGame({ gameId, userId: user?._id, password: "" });
       return;
@@ -100,9 +100,10 @@ export default function Game() {
       <div className="border-r-2 border-white p-4 flex flex-col items-center justify-between md:w-1/3">
         <div className="text-xl mb-4">Game Leaderboard</div>
         <div className="flex flex-col gap-2 flex-1 w-full">
-          {players?.reverse().map((player, i) => {
+          {players.map((player, i) => {
             const isOdd = i % 2 !== 0;
             const isEven = i % 2 === 0;
+            const playerData = getSortedPlayers && getSortedPlayers[i];
             return (
               <div
                 key={player?._id}
@@ -119,7 +120,7 @@ export default function Game() {
                   className="rounded-full mr-2 px-1 py-2 object-cover"
                 />
                 <div className="flex-1">{player?.username}</div>
-                <div className="w-8">{playerPoints}</div>
+                <div className="w-8">{playerData?.points}</div>
               </div>
             );
           })}
@@ -139,7 +140,9 @@ export default function Game() {
         <div className="flex flex-col items-center justify-between my-6 md:w-2/3">
           <h1 className="text-2xl md:text-4xl font-bold ">Guess the word:</h1>
           <h1 className="text-4xl md:text-6xl font-bold">
-            {game?.rounds.find((round) => round.status === "ongoing")?.word}
+            {game?.rounds
+              .find((round) => round.status === "ongoing")
+              ?.brokenWord.toUpperCase()}
           </h1>
           <form
             className="flex justify-center items-center flex-wrap gap-4 input-word-game"
@@ -188,9 +191,6 @@ export default function Game() {
               Start Game!
             </button>
           )}
-          <div className="mt-4">
-           
-          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-4 my-6 md:w-2/3">
