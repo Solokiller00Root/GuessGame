@@ -12,6 +12,8 @@ import Modal from "./Modal";
 
 type JoinGameModalPropsType = {
   gameId: Id<"games">;
+ 
+  
 };
 
 export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
@@ -57,7 +59,7 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
   }
 
   const joinGameIfAlreadyJoined = async () => {
-    if (game && user && game.players.find((player) => player.id === user?._id)) {
+    if (game && user && game.players.find((id) => id === user?._id)) {
       router.push(`/play/${gameId}`);
     }
   };
