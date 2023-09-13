@@ -49,7 +49,7 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
     return (
       <button
         onClick={joinPublicGame}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="px-4 py-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-700"
       >
         Join
       </button>
@@ -57,7 +57,7 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
   }
 
   const joinGameIfAlreadyJoined = async () => {
-    if (game && user && game.players.find((id) => id === user?._id)) {
+    if (game && user && game.players.find((player) => player.id === user?._id)) {
       router.push(`/play/${gameId}`);
     }
   };
@@ -67,7 +67,7 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
       triggerButton={
         <button
           onClick={joinGameIfAlreadyJoined}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="px-4 py-2 font-bold text-white bg-blue-600 rounded hover:bg-blue-700"
         >
           Join
         </button>
@@ -82,7 +82,7 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
           className="col-span-3"
           onChange={(e) => setPassword(e.target.value)}
         />
-        {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
+        {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
         <DialogFooter className='mt-4'>
           <Button type="submit">Join Lobby</Button>
         </DialogFooter>
