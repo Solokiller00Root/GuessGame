@@ -48,6 +48,27 @@ body {
 
 
 
+@media screen and (max-width: 600px) {
+  .container-game{
+    height: 650px;
+    margin-top: 50px;
+  }
+  .gamelogs{
+    display: none;
+  }
+  .ongoing-container{
+    margin-top: 150px;
+  }
+  .container1{
+    margin-top: 150px;
+    
+  }
+  
+}
+  
+
+
+
 .shine-star {
   animation: shine 1s infinite;
   rotate: 180deg;

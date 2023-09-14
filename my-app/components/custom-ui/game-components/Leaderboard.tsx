@@ -26,7 +26,8 @@ export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
   return (
     <>
       {getGameStatus !== "waiting" && (
-        <div className="flex flex-col items-center justify-between p-4 border-r-2 border-white md:w-1/3">
+        
+        <div className="flex flex-col items-center justify-between p-4 lg:border-r-2 border-white md:w-1/3   ">
           <div className="mb-4 text-xl">Game Leaderboard</div>
           <div className="flex flex-col flex-1 w-full gap-2">
             {players.map((player, i) => {
@@ -37,8 +38,8 @@ export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
                 <div
                   key={player?._id}
                   className={`flex justify-between items-center text-lg w-full rounded-md ${
-                    isOdd ? `bg-[#4e4b51]` : ""
-                  } ${isEven ? `bg-[#3d3a41]` : ""}`}
+                    isOdd ? `bg-[#7C3AED]` : ""
+                  } ${isEven ? `bg-[#3A1463]` : ""}`}
                 >
                   <h4 className="py-1 m-2 text-xl font-semibold">{i + 1}.</h4>
                   <Image
@@ -54,7 +55,7 @@ export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
               );
             })}
           </div>
-          <hr className="w-full my-4 border-gray-300" />
+          <hr className="w-full my-4 border-gray-300 border-b-2 border" />
           <GameLogs gameId={gameId} />
         </div>
       )}

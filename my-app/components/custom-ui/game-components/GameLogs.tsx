@@ -12,7 +12,7 @@ export default function GameLogs({ gameId }: GameLogsPropsType) {
   if (!game) return null;
 
   return (
-    <div className="flex flex-col flex-1 gap-2 overflow-y-auto">
+    <div className="flex flex-col flex-1 gap-2 overflow-y-auto guessLogs-styling">
       {game.logs.map((log, index) => {
         return (
           <div key={index} className="text-sm">

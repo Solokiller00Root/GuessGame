@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useRef } from "react";
+
 import lottie from "lottie-web";
 import animationData from "@/public/assets/404.json";
 
 export default function NotFoundPage() {
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef(null);
+ 
 
   useEffect(() => {
     if (container.current) {
@@ -18,6 +20,7 @@ export default function NotFoundPage() {
       });
     }
   }, []);
+
 
   return (
     <section className="w-screen h-[75vh] flex justify-center items-center text-white">

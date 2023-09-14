@@ -50,7 +50,7 @@ export default function Game() {
     return <JoinGameModal gameId={gameId} />;
   }
   return (
-    <div className="flex flex-col w-11/12 border border-white bg-black/30 rounded-xl md:w-3/5 h-4/5  md:flex-row">
+      <div className="flex flex-col w-11/12 border border-white bg-black/ rounded-xl md:w-3/5 h-4/5    md:flex-row container-game">
       <LeaderBoard gameId={gameId} />
       
       <GuessWord gameId={gameId} />      

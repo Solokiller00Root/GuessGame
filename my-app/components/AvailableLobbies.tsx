@@ -79,7 +79,7 @@ export default function AvailableLobbies() {
   return (
     <div
       id="games"
-      className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans container1 "
+      className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans "
     >
       <motion.h1
         className="text-4xl font-bold mt-8 mb-4 py-10 text-white "
@@ -119,7 +119,7 @@ export default function AvailableLobbies() {
               if (game.status === "ongoing" || game.status === "finished")
                 return;
               return (
-                <tr key={game._id} className="bg-black/30 hover:bg-black/50">
+                <tr key={game._id} className="bg-black/30 hover:bg-black/50 ">
                   <td className="py-3 px-4 border border-black text-lg">
                     {game.name}
                   </td>
