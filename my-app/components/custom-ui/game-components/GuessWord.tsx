@@ -118,7 +118,7 @@ export default function GuessWord({ gameId }: GuessWordPropsType) {
           </form>
         </div>
       ) : game.status === "waiting" ? (
-        <div className="container flex flex-col items-center justify-center relative">
+        <div className="container flex flex-col items-center justify-center relative container-waiting gap-5">
           <h1 className="text-2xl font-bold md:text-4xl mb-4">
             Waiting for players to join...
           </h1>
@@ -146,9 +146,9 @@ export default function GuessWord({ gameId }: GuessWordPropsType) {
               );
             })}
             {game.owner === user?._id && (
-              <div className="flex flex-col items-center justify-center gap-4 ">
+              <div className="flex flex-col items-center justify-center py-10 ">
                 {game.players?.length < 1  ? (
-                  <p>Need 3 or more players to start</p>
+                  <p className="py-10">Need 3 or more players to start</p>
                 ) : (
                   <CustomButton
                     handleClick={() =>

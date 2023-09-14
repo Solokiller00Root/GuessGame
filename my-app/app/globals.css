@@ -47,7 +47,6 @@ body {
 }
 
 
-
 @media screen and (max-width: 600px) {
   .container-game{
     height: 650px;
@@ -61,6 +60,13 @@ body {
   }
   .container1{
     margin-top: 150px;
+  }
+  .container-waiting{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
     
   }
   
