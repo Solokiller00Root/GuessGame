@@ -6,6 +6,8 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import CustomButton from "../CustomButton";
+import Image from "next/image";
+
 
 type GuessWordPropsType = {
   gameId: Id<"games">;
@@ -78,6 +80,12 @@ export default function GuessWord({ gameId }: GuessWordPropsType) {
     setGuessedWord("");
   };
 
+
+  const currentRound = game?.rounds.find((round) => round.status === "ongoing");
+  const firstLetter = currentRound?.word.slice(0, 1);
+  const lastLetter = currentRound?.word.slice(-1);
+  if (!players) return null;
+
   return (
     <>
       {game.status === "ongoing" ? (
@@ -94,9 +102,10 @@ export default function GuessWord({ gameId }: GuessWordPropsType) {
           >
             <input
               type="text"
-              className="w-3/5 px-4 py-2 text-2xl font-bold text-center border border-gray-300 rounded-md md:text-4xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="input-styling w-3/5 px-4 py-4 text-2xl font-bold text-center border border-purple-600 rounded-md md:text-4xl focus:outline-none focus:ring-2 focus:ring-purple-600"
               value={guessedWord}
               onChange={(e) => setGuessedWord(e.target.value)}
+              placeholder={`${firstLetter}___${lastLetter}`}
             />
             <CustomButton type="submit">
               Submit
@@ -117,25 +126,48 @@ export default function GuessWord({ gameId }: GuessWordPropsType) {
             </CustomButton>
           </form>
         </div>
-      ) : game.status === "waiting" ? (
-        <div className="flex flex-col items-center justify-center gap-4 my-6 md:w-2/3">
-          <h1 className="text-2xl font-bold text-center md:text-4xl">
-            Waiting for players to join...
-          </h1>
-          {game.owner === user?._id && (
-            <>
-              <div className="m-10"></div>
-              <CustomButton
-                handleClick={() =>
-                  updateGameStatus({ gameId: game?._id, status: "ongoing" })
-                }
-              >
-                Start Game!
-              </CustomButton>
-            </>
-          )}
+      ) :game.status === "waiting" ? (
+        <div className="container flex flex-col items-center justify-center relative">
+          <h1 className="text-2xl font-bold md:text-4xl mb-4">Waiting for players to join...</h1>
+          <div className="w-full max-w-md">
+            {players.map((player, i) => {
+              const isOdd = i % 2 !== 0;
+              const isEven = i % 2 === 0;
+              const playerData = getSortedPlayers && getSortedPlayers[i];
+              return (
+                <div
+                  key={player?._id}
+                  className={`flex justify-between items-center text-lg px-6 py-2 mb-2 rounded-md waiting-list ${
+                    isOdd ? `bg-[#4e4b51]` : ""
+                  } ${isEven ? `bg-[#3d3a41]` : ""}`}
+                >
+                  <h4 className="py-1 m-2 text-xl font-semibold">{i + 1}.</h4>
+                  <Image
+                    src={player?.image || "/default-avatar.png"}
+                    alt="User avatar"
+                    width={32}
+                    height={32}
+                    className="object-cover px-1 py-2 mr-2 rounded-full"
+                  />
+                  <div className="flex-1">{player?.username}</div>
+                </div>
+              );
+            })}
+            {game.owner === user?._id && (
+              <div className="flex flex-col items-center justify-center gap-4">
+                <CustomButton
+                  handleClick={() =>
+                    updateGameStatus({ gameId: game?._id, status: "ongoing" })
+                  }
+                >
+                  Start Game!
+                </CustomButton>
+              </div>
+            )}
+          </div>
         </div>
-      ) : (
+      )  : (
+
         <div className="flex flex-col items-center justify-center gap-4 my-6 md:w-2/3">
           <h1 className="text-2xl font-bold md:text-4xl">Game is finished!</h1>
           <div>

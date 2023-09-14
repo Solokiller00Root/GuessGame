@@ -27,7 +27,13 @@ export const createGame = mutation({
       const word = words[i];
       const wordArr = word.split("");
       const shuffledWord = wordArr.sort(() => Math.random() - 0.5);
-      const brokenWord = shuffledWord.join("");
+      
+      const brokenWord = shuffledWord.map((char, index) => {
+        if (index === shuffledWord.length - 1) {
+          return char;
+        }
+        return char + "-";
+      }).join("");
       words[i] = brokenWord;
       roundsArr[i] = { word, status: "ongoing", brokenWord };
     }
@@ -42,6 +48,16 @@ export const createGame = mutation({
       password,
     });
     return gameId;
+  },
+});
+
+export const getGameStatus = query({
+  args: { gameId: v.id("games") },
+  handler: async (ctx, { gameId }) => {
+    const game = await ctx.db.get(gameId);
+    if (game) {
+      return game.status;
+    }
   },
 });
 

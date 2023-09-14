@@ -29,7 +29,7 @@ export default function Play() {
 
   return (
     <section className="w-screen h-[75vh] flex justify-center items-center text-white">
-      {checkGameIsValid ? <Game /> : <h1>LOADING GAME INFO...</h1>}
+      {checkGameIsValid ? <Game /> : <div className="lds-ring"><div></div><div></div><div></div><div></div></div>}
     </section>
   );
 }

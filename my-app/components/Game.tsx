@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams, useRouter } from "next/navigation";
@@ -9,11 +8,9 @@ import { Id } from "@/convex/_generated/dataModel";
 import JoinGameModal from "./custom-ui/JoinGameModal";
 import { useSession } from "next-auth/react";
 import LeaderBoard from "./custom-ui/game-components/Leaderboard";
-import GameLogs from "./custom-ui/game-components/GameLogs";
 import GuessWord from "./custom-ui/game-components/GuessWord";
 
 export default function Game() {
-  const [guessedWord, setGuessedWord] = useState("");
   const { data: session } = useSession();
   const params = useParams();
   const route = useRouter();
@@ -29,13 +26,9 @@ export default function Game() {
   const user = useQuery(api.users.getUserByUsername, {
     username: session?.user?.name || "",
   });
-  const updatePlayerPoints = useMutation(api.users.updatePlayerPoints);
-  const updateInGamePlayerPoints = useMutation(
-    api.games.updateInGamePlayerPoints
-  );
-  const updateRoundStatus = useMutation(api.games.updateRoundStatus);
+
   const updateGameStatus = useMutation(api.games.updateGameStatus);
-  const updateGameLogs = useMutation(api.games.updateGameLogs);
+
 
   useEffect(() => {
     if (players?.length === 5) {
@@ -57,7 +50,7 @@ export default function Game() {
     return <JoinGameModal gameId={gameId} />;
   }
   return (
-    <div className="flex flex-col w-11/12 border border-white bg-black/30 rounded-xl md:w-3/5 h-4/5 game md:flex-row">
+    <div className="flex flex-col w-11/12 border border-white bg-black/30 rounded-xl md:w-3/5 h-4/5  md:flex-row">
       <LeaderBoard gameId={gameId} />
       
       <GuessWord gameId={gameId} />      
