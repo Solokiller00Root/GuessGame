@@ -22,7 +22,6 @@ export default function NotFoundPage() {
   return (
     <section className="w-screen h-[75vh] flex justify-center items-center text-white">
       <div ref={container} style={{ width: "300px", height: "300px" }}></div>
-      <h1>404</h1>
     </section>
   );
 }
