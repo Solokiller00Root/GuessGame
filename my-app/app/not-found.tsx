@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import lottie from "lottie-web";
 import animationData from "@/public/assets/404.json";
 
-export default function notFound() {
+export default function NotFoundPage() {
   const container = useRef(null);
 
   useEffect(() => {
