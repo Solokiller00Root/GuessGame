@@ -2,14 +2,12 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useAction, useMutation, useQuery } from "convex/react";
-
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Modal from "./Modal";
-import  Link  from "next/link";
 
 type FormDataType = {
   gameName: string;
@@ -62,7 +60,7 @@ export default function CreateGameModal() {
     <Modal
       triggerButton={
         <button className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
-          Play Now
+          Create Game
         </button>
       }
       title="Create Game"

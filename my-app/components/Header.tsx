@@ -1,18 +1,14 @@
-'use client'
+"use client";
 
-import HeroSection from "./Hero"
-
-
-
+import HeroSection from "./Hero";
 
 export default function Header() {
   return (
     <div className="header">
-      <div> 
-      <HeroSection />
+      <div>
+        <HeroSection />
       </div>
-  <div className="particles ">
-    
+      <div className="particles ">
         <div className="particle"></div>
         <div className="particle"></div>
         <div className="particle"></div>
@@ -38,7 +34,7 @@ export default function Header() {
         <div className="particle"></div>
         <div className="particle"></div>
         <div className="particle"></div>
+      </div>
     </div>
-</div>
-  )
+  );
 }

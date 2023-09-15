@@ -3,10 +3,14 @@ import { ReactNode } from "react";
 type CustomButtonPropsType = {
   children: ReactNode;
   handleClick?: () => void;
-  type?: "button" | "submit" | 'reset'
+  type?: "button" | "submit" | "reset";
 };
 
-export default function CustomButton({ children, handleClick, type }: CustomButtonPropsType) {
+export default function CustomButton({
+  children,
+  handleClick,
+  type,
+}: CustomButtonPropsType) {
   return (
     <button
       type={type}

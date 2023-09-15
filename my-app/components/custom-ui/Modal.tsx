@@ -24,7 +24,7 @@ export default function Modal({
 }: ModalPropsType) {
   return (
     <Dialog>
-      <DialogTrigger  asChild>{triggerButton}</DialogTrigger>
+      <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

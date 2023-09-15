@@ -3,11 +3,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useMutation } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
-
 import { api } from "@/convex/_generated/api";
 
 export default function AuthButton() {
-    const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const { data: session } = useSession();
 
@@ -34,7 +33,6 @@ export default function AuthButton() {
     signOut();
   };
 
-  
   if (!session) {
     return (
       <div className="flex gap-2 items-center">

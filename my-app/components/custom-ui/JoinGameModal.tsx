@@ -2,7 +2,6 @@ import { useState, FormEvent } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Input } from "@/components/ui/input";
@@ -12,8 +11,6 @@ import Modal from "./Modal";
 
 type JoinGameModalPropsType = {
   gameId: Id<"games">;
- 
-  
 };
 
 export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
@@ -59,7 +56,11 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
   }
 
   const joinGameIfAlreadyJoined = async () => {
-    if (game && user && game.players.find((player) => player.id === user?._id)) {
+    if (
+      game &&
+      user &&
+      game.players.find((player) => player.id === user?._id)
+    ) {
       router.push(`/play/${gameId}`);
     }
   };
@@ -85,7 +86,7 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
           onChange={(e) => setPassword(e.target.value)}
         />
         {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
-        <DialogFooter className='mt-4'>
+        <DialogFooter className="mt-4">
           <Button type="submit">Join Lobby</Button>
         </DialogFooter>
       </form>

@@ -15,7 +15,6 @@ export default function Footer() {
         </a>
         <span className="text-gray-400 mx-4">|</span>
         <span className="text-gray-400">
-          
           &copy; {new Date().getFullYear()} GuessGame
         </span>
       </div>

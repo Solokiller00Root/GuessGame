@@ -6,12 +6,15 @@ type BurgerMenuPropsType = {
   setMobileNav: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function BurgerMenu({mobileNav, setMobileNav}: BurgerMenuPropsType) {
+export default function BurgerMenu({
+  mobileNav,
+  setMobileNav,
+}: BurgerMenuPropsType) {
   return (
     <motion.button
       initial="hide"
       animate={mobileNav ? "show" : "hide"}
-      onClick={() => setMobileNav(prev => !prev)}
+      onClick={() => setMobileNav((prev) => !prev)}
       className="relative z-20 flex flex-col space-y-1 lg:hidden md:hidden "
     >
       <motion.span

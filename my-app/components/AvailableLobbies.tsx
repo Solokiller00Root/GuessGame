@@ -37,8 +37,6 @@ export default function AvailableLobbies() {
     };
   }, []);
 
-
-
   const handleAuth = () => {
     router.push(
       "/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
