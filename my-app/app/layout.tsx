@@ -1,9 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import SessionProvider from '@/lib/SessionProvider'
+import SessionProvider from "@/lib/SessionProvider";
 import { getServerSession } from "next-auth";
 import Navbar from "@/components/NavBar";
 import ConvexClientProvider from "./ConvexClientProvider";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Guess Game",
@@ -24,10 +25,10 @@ export default async function RootLayout({
             <main>
               <Navbar />
               {children}
+              <Footer />
             </main>
           </ConvexClientProvider>
         </SessionProvider>
-
       </body>
     </html>
   );
