@@ -17,11 +17,8 @@ export default function Game() {
   const gameId = params.gameId as Id<"games">;
   const game = useQuery(api.games.getGameById, { gameId });
   const joinGame = useMutation(api.games.joinGame);
-  const getSortedPlayers = useQuery(api.games.getSortedPlayers, {
-    gameId,
-  });
   const players = useQuery(api.games.getGamePlayers, {
-    players: getSortedPlayers || [],
+    players: game?.players || [],
   });
   const user = useQuery(api.users.getUserByUsername, {
     username: session?.user?.name || "",
@@ -29,14 +26,11 @@ export default function Game() {
 
   const updateGameStatus = useMutation(api.games.updateGameStatus);
 
-
   useEffect(() => {
     if (players?.length === 5) {
       updateGameStatus({ gameId, status: "ongoing" });
     }
   }, [players, gameId, updateGameStatus, game, route]);
-
-  
 
   if (
     game &&
@@ -50,10 +44,10 @@ export default function Game() {
     return <JoinGameModal gameId={gameId} />;
   }
   return (
-      <div className="flex flex-col w-11/12 border border-white bg-black/ rounded-xl md:w-3/5 h-4/5    md:flex-row container-game">
+    <div className="flex flex-col w-11/12 border border-white bg-black/ rounded-xl md:w-3/5 h-4/5 md:flex-row container-game ">
       <LeaderBoard gameId={gameId} />
-      
-      <GuessWord gameId={gameId} />      
+
+      <GuessWord gameId={gameId} />
     </div>
   );
 }

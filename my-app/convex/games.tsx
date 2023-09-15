@@ -1,5 +1,6 @@
 import { action, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 
 export const getRandomWord = action({
   args: { rounds: v.number() },
@@ -27,13 +28,15 @@ export const createGame = mutation({
       const word = words[i];
       const wordArr = word.split("");
       const shuffledWord = wordArr.sort(() => Math.random() - 0.5);
-      
-      const brokenWord = shuffledWord.map((char, index) => {
-        if (index === shuffledWord.length - 1) {
-          return char;
-        }
-        return char + "-";
-      }).join("");
+
+      const brokenWord = shuffledWord
+        .map((char, index) => {
+          if (index === shuffledWord.length - 1) {
+            return char;
+          }
+          return char + "-";
+        })
+        .join("");
       words[i] = brokenWord;
       roundsArr[i] = { word, status: "ongoing", brokenWord };
     }
@@ -91,9 +94,7 @@ export const getGameById = query({
   args: { gameId: v.id("games") },
   handler: async (ctx, { gameId }) => {
     const game = await ctx.db.get(gameId);
-    if (!game) {
-      return null;
-    }
+    game?.players.sort((a, b) => b.points - a.points);
     return game;
   },
 });
@@ -146,6 +147,14 @@ export const updateGameStatus = mutation({
   handler: async (ctx, { gameId, status }) => {
     const game = await ctx.db.get(gameId);
     if (game) {
+      if (status === "finished") {
+        game.players.forEach(async (player) => {
+          await ctx.scheduler.runAfter(100, api.users.updatePlayerPoints, {
+            userId: player.id,
+            points: player.points,
+          });
+        });
+      }
       await ctx.db.patch(gameId, { status: status });
     }
   },
@@ -197,18 +206,6 @@ export const updateInGamePlayerPoints = mutation({
         player.points += points;
         await ctx.db.patch(gameId, { players: players });
       }
-    }
-  },
-});
-
-export const getSortedPlayers = query({
-  args: { gameId: v.id("games") },
-  handler: async (ctx, { gameId }) => {
-    const game = await ctx.db.get(gameId);
-    if (game) {
-      const players = game.players;
-      const sortedPlayers = players.sort((a, b) => b.points - a.points);
-      return sortedPlayers;
     }
   },
 });

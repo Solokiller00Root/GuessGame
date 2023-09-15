@@ -9,16 +9,13 @@ type LeaderboardPropsType = {
 };
 
 export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
-  const getSortedPlayers = useQuery(api.games.getSortedPlayers, {
-    gameId,
-  });
-
+  const game = useQuery(api.games.getGameById, { gameId });
   const getGameStatus = useQuery(api.games.getGameStatus, {
     gameId,
   });
 
   const players = useQuery(api.games.getGamePlayers, {
-    players: getSortedPlayers || [],
+    players: game?.players || [],
   });
 
   if (!players) return null;
@@ -26,14 +23,13 @@ export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
   return (
     <>
       {getGameStatus !== "waiting" && (
-        
         <div className="flex flex-col items-center justify-between p-4 lg:border-r-2 border-white md:w-1/3   ">
           <div className="mb-4 text-xl">Game Leaderboard</div>
           <div className="flex flex-col flex-1 w-full gap-2">
             {players.map((player, i) => {
               const isOdd = i % 2 !== 0;
               const isEven = i % 2 === 0;
-              const playerData = getSortedPlayers && getSortedPlayers[i];
+              const playerData = game?.players && game?.players[i];
               return (
                 <div
                   key={player?._id}
