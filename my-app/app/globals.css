@@ -46,28 +46,28 @@ body {
   }
 }
 
-
-
 @media screen and (max-width: 600px) {
-  .container-game{
-    height: 650px;
+  .container-game {
+    height: 120vh;
     margin-top: 50px;
   }
-  .gamelogs{
+  .gamelogs {
     display: none;
   }
-  .ongoing-container{
+  .ongoing-container {
     margin-top: 150px;
   }
-  .container1{
+  .container1 {
     margin-top: 150px;
-    
   }
-  
+  .container-waiting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+  }
 }
-  
-
-
 
 .shine-star {
   animation: shine 1s infinite;
@@ -100,13 +100,12 @@ input[type="number"] {
     transform: rotate(0deg);
     opacity: 1;
   }
-  50%{
+  50% {
     opacity: 0.5;
   }
   100% {
     opacity: 1;
   }
- 
 }
 
 li {
@@ -133,9 +132,6 @@ li {
   height: 150px;
 }
 
-
-
-
 h1 {
   font-size: 3.2em;
 }
@@ -158,10 +154,8 @@ h1 {
   text-align: center;
 }
 
-
-
-.input-word-game{
-    color: black;
+.input-word-game {
+  color: black;
 }
 
 .leaderboard .singlePlayerStat:nth-child(odd) {
@@ -176,10 +170,6 @@ h1 {
 .leaderboard::-webkit-scrollbar {
   width: 10px;
 }
-
-
-
-
 
 .header {
   position: relative;

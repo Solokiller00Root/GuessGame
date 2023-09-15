@@ -1,7 +1,6 @@
 "use client";
 
-import { useMutation, useQuery } from "convex/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -11,29 +10,21 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { api } from "@/convex/_generated/api";
 import AuthButton from "./custom-ui/navbar/AuthButton";
 import BurgerMenu from "./custom-ui/navbar/BurgerMenu";
 import GuessLogo from "./custom-ui/navbar/GuessLogo";
-import CreateGameModal from "./custom-ui/CreateGameModal";
-
-
-
-
 
 const links = [
   { title: "Leadboard", url: "/leaderboard" },
   { title: "Join Game", url: "/#games" },
-  { title: "Create Game", url: "/"},
+  { title: "Create Game", url: "/" },
 ];
-
 
 export default function Navbar() {
   const [mobileNav, setMobileNav] = useState(false);
-
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
     if (latest > previous) {
@@ -42,6 +33,7 @@ export default function Navbar() {
       setHidden(false);
     }
   });
+
   const closeNav = () => {
     setMobileNav(false);
   };
@@ -70,7 +62,6 @@ export default function Navbar() {
                       staggerChildren: 0.25,
                     },
                   },
-
                   show: {
                     x: "0%",
                     transition: {
@@ -100,8 +91,7 @@ export default function Navbar() {
                   className="space-y-6 list-none "
                 >
                   {links.map((link, index) => (
-                    <Link key={index} href={link.url}
-                    onClick={closeNav}>
+                    <Link key={index} href={link.url} onClick={closeNav}>
                       <li>
                         <div className="text-5xl font-semibold text-white ">
                           {link.title}
@@ -141,7 +131,6 @@ export default function Navbar() {
               </motion.div>
             </MotionConfig>
           )}
-
           <GuessLogo />
         </AnimatePresence>
       </nav>
@@ -202,7 +191,6 @@ export default function Navbar() {
                     </motion.button>
                   ))}
                 </ul>
-
                 <AuthButton />
               </div>
             </nav>
