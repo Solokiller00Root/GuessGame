@@ -1,28 +1,26 @@
-import { action, mutation, query } from "./_generated/server";
+import { action, internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { api } from "./_generated/api";
+import { internal } from "./_generated/api";
+import { Id } from "./_generated/dataModel";
 
-export const getRandomWord = action({
-  args: { rounds: v.number() },
-  handler: async (ctx, args) => {
-    const res = await fetch(
-      `https://random-word-api.herokuapp.com/word?number=${args.rounds}&length=5`
-    );
-    const data = await res.json();
-    return data;
-  },
-});
-export const createGame = mutation({
+async function fetchWords(rounds: number) {
+  const res = await fetch(
+    `https://random-word-api.herokuapp.com/word?number=${rounds}&length=5`
+  );
+  const data = await res.json();
+  return data as string[];
+}
+
+export const createGame = action({
   args: {
     name: v.string(),
     owner: v.id("users"),
     privacy: v.string(),
     rounds: v.number(),
-    words: v.array(v.string()),
-    players: v.array(v.id("users")),
     password: v.union(v.string(), v.null()),
   },
-  handler: async (ctx, { name, owner, privacy, rounds, password, words }) => {
+  handler: async (ctx, { name, owner, privacy, rounds, password }) => {
+    const words = await fetchWords(rounds);
     const roundsArr = new Array(rounds).fill({});
     for (let i = 0; i < roundsArr.length; i++) {
       const word = words[i];
@@ -40,15 +38,45 @@ export const createGame = mutation({
       words[i] = brokenWord;
       roundsArr[i] = { word, status: "ongoing", brokenWord };
     }
+    const gameId: Id<"games"> = await ctx
+      .runMutation(internal.games.addGame, {
+        name,
+        owner,
+        privacy,
+        rounds: roundsArr,
+        players: [{ id: owner, points: 0 }],
+        password,
+      })
+      .then((res) => res as Id<"games">);
+    return gameId;
+  },
+});
+
+export const addGame = internalMutation({
+  args: {
+    name: v.string(),
+    owner: v.id("users"),
+    privacy: v.string(),
+    rounds: v.array(
+      v.object({
+        word: v.string(),
+        status: v.union(v.literal("ongoing"), v.literal("guessed")),
+        brokenWord: v.string(),
+      })
+    ),
+    players: v.array(v.object({ id: v.id("users"), points: v.number() })),
+    password: v.union(v.string(), v.null()),
+  },
+  handler: async (ctx, { name, owner, privacy, rounds, players, password }) => {
     const gameId = await ctx.db.insert("games", {
       name,
       owner,
       privacy,
       logs: [],
-      rounds: roundsArr,
-      status: "waiting",
-      players: [{ id: owner, points: 0 }],
+      rounds,
+      players,
       password,
+      status: "waiting",
     });
     return gameId;
   },
@@ -149,7 +177,7 @@ export const updateGameStatus = mutation({
     if (game) {
       if (status === "finished") {
         game.players.forEach(async (player) => {
-          await ctx.scheduler.runAfter(100, api.users.updatePlayerPoints, {
+          await ctx.scheduler.runAfter(100, internal.users.updatePlayerPoints, {
             userId: player.id,
             points: player.points,
           });

@@ -1,4 +1,4 @@
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const createUser = mutation({
@@ -37,7 +37,7 @@ export const getTopTenUsers = query({
   },
 });
 
-export const updatePlayerPoints = mutation({
+export const updatePlayerPoints = internalMutation({
   args: { userId: v.id("users"), points: v.number() },
   handler: async (ctx, args) => {
     const user = await ctx.db.get(args.userId);

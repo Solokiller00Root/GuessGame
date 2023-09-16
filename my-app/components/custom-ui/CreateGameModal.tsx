@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useAction, useMutation, useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -20,7 +20,7 @@ export default function CreateGameModal() {
   const [formData, setFormData] = useState<FormDataType>({
     gameName: "",
     privacy: "public",
-    rounds: 0,
+    rounds: 5,
     password: "",
   });
   const { data: session } = useSession();
@@ -28,8 +28,7 @@ export default function CreateGameModal() {
   const user = useQuery(api.users.getUserByUsername, {
     username: session?.user?.name || "",
   });
-  const createGame = useMutation(api.games.createGame);
-  const getRandomWord = useAction(api.games.getRandomWord);
+  const createGame = useAction(api.games.createGame);
 
   const updateFormData = (field: string, value: string | number) => {
     setFormData((prev) => ({
@@ -40,16 +39,12 @@ export default function CreateGameModal() {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (user) {
-      const words = await getRandomWord({ rounds: formData.rounds });
       const gameId = await createGame({
         name: formData.gameName,
         owner: user._id,
         privacy: formData.privacy,
         rounds: formData.rounds,
-        players: [user._id],
-        words,
         password: formData.privacy === "private" ? formData.password : null,
       });
       router.push(`/play/${gameId}`);
@@ -87,6 +82,7 @@ export default function CreateGameModal() {
               placeholder="5"
               id="rounds"
               className="col-span-3"
+              value={formData.rounds}
               onChange={(e) => updateFormData("rounds", +e.target.value)}
               required
               min={1}
@@ -98,8 +94,8 @@ export default function CreateGameModal() {
             <div className="grid items-center grid-cols-4 gap-4">
               <Label htmlFor="password">Password</Label>
               <Input
-                type="text"
-                placeholder="12345"
+                type="password"
+                placeholder="Password"
                 id="password"
                 className="col-span-3"
                 onChange={(e) => updateFormData("password", e.target.value)}

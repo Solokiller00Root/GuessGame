@@ -80,8 +80,9 @@ export default function JoinGameModal({ gameId }: JoinGameModalPropsType) {
     >
       <form onSubmit={submitHandler}>
         <Input
-          id="name"
-          placeholder="Eagles"
+          id="password"
+          type="password"
+          placeholder="Password"
           className="col-span-3"
           onChange={(e) => setPassword(e.target.value)}
         />
