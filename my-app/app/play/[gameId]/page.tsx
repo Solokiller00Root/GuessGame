@@ -28,7 +28,7 @@ export default function Play() {
   }, [checkGameIsValid, router]);
 
   return (
-    <section className="w-screen h-[75vh] flex justify-center items-center text-white">
+    <section className="flex items-center justify-center w-screen text-white">
       {checkGameIsValid ? (
         <Game />
       ) : (

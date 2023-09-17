@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "convex/react";
+import { useSession } from "next-auth/react";
+
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import CustomButton from "../CustomButton";
-import { useSession } from "next-auth/react";
 
 type GameStatusOngoingPropsType = {
   gameId: Id<"games">;
@@ -14,6 +15,7 @@ export default function GameStatusOngoing({
 }: GameStatusOngoingPropsType) {
   const [guessedWord, setGuessedWord] = useState("");
   const { data: session } = useSession();
+
   const game = useQuery(api.games.getGameById, { gameId });
   const user = useQuery(api.users.getUserByUsername, {
     username: session?.user?.name || "",
@@ -25,7 +27,6 @@ export default function GameStatusOngoing({
   const updateInGamePlayerPoints = useMutation(
     api.games.updateInGamePlayerPoints
   );
-
   const updateRoundStatus = useMutation(api.games.updateRoundStatus);
   const updateGameStatus = useMutation(api.games.updateGameStatus);
   const updateGameLogs = useMutation(api.games.updateGameLogs);
@@ -72,7 +73,7 @@ export default function GameStatusOngoing({
   };
 
   return (
-    <div className="container flex flex-col items-center justify-center relative">
+    <div className="container relative flex flex-col items-center justify-center gap-y-8">
       <h1 className="text-4xl font-bold md:text-6xl max-sm:text-4xl">
         {currentRound?.brokenWord.toUpperCase()}
       </h1>
@@ -82,7 +83,7 @@ export default function GameStatusOngoing({
       >
         <input
           type="text"
-          className="input-styling w-3/5 px-4 py-4 text-2xl font-bold text-center border border-purple-600 rounded-md md:text-4xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+          className="w-full p-4 text-2xl font-bold text-center border border-purple-600 rounded-md sm:w-3/5 input-styling md:text-4xl focus:outline-none focus:ring-2 focus:ring-purple-600"
           value={guessedWord}
           onChange={(e) => setGuessedWord(e.target.value)}
           placeholder={`${currentRound?.word[0]}___${
@@ -90,7 +91,7 @@ export default function GameStatusOngoing({
           }`}
         />
 
-        <CustomButton type="submit">Submit</CustomButton>
+        <CustomButton type="submit" className="py-5 px-7">Submit</CustomButton>
       </form>
     </div>
   );

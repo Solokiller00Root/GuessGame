@@ -1,7 +1,8 @@
+import Image from "next/image";
+import { useQuery } from "convex/react";
+
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useQuery } from "convex/react";
-import Image from "next/image";
 import GameLogs from "./GameLogs";
 
 type LeaderboardPropsType = {
@@ -23,7 +24,7 @@ export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
   return (
     <>
       {getGameStatus !== "waiting" && (
-        <div className="flex flex-col items-center justify-between p-4 lg:border-r-2 border-white md:w-1/3   ">
+        <div className="flex flex-col items-center justify-between p-4 border-white md:border-r-2 md:w-1/3 ">
           <div className="mb-4 text-xl">Game Leaderboard</div>
           <div className="flex flex-col flex-1 w-full gap-2">
             {players.map((player, i) => {
@@ -51,7 +52,7 @@ export default function LeaderBoard({ gameId }: LeaderboardPropsType) {
               );
             })}
           </div>
-          <hr className="w-full my-4 border-gray-300 border-b-2 border" />
+          <hr className="w-full my-8 border border-b-2 border-gray-300" />
           <GameLogs gameId={gameId} />
         </div>
       )}

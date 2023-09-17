@@ -39,13 +39,14 @@ export default function CreateGameModal() {
 
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (user) {
+    const {gameName, privacy, rounds, password} = formData
+    if (user && gameName && privacy && rounds) {
       const gameId = await createGame({
-        name: formData.gameName,
+        name: gameName,
         owner: user._id,
-        privacy: formData.privacy,
-        rounds: formData.rounds,
-        password: formData.privacy === "private" ? formData.password : null,
+        privacy: privacy,
+        rounds: rounds,
+        password: privacy === "private" ? password : null,
       });
       router.push(`/play/${gameId}`);
     }
