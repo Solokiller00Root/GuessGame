@@ -19,6 +19,7 @@ export default function GameStatusWaiting({ gameId }: GuessWordPropsType) {
     username: session?.user?.name || "",
   });
 
+
   const updateGameStatus = useMutation(api.games.updateGameStatus);
   if (!game) return null;
   if (!players) return null;

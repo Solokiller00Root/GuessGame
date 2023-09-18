@@ -36,21 +36,25 @@ export default function CreateGameModal() {
       [field]: value,
     }));
   };
-
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const {gameName, privacy, rounds, password} = formData
-    if (user && gameName && privacy && rounds) {
+    setButtonDisabled(true);
+    if (user) {
       const gameId = await createGame({
-        name: gameName,
+        name: formData.gameName,
         owner: user._id,
-        privacy: privacy,
-        rounds: rounds,
-        password: privacy === "private" ? password : null,
+        privacy: formData.privacy,
+        rounds: formData.rounds,
+        password: formData.privacy === "private" ? formData.password : null,
       });
       router.push(`/play/${gameId}`);
     }
+    setTimeout(() => {
+      setButtonDisabled(false);
+    }, 2000);
   };
+
 
   return (
     <Modal
@@ -87,7 +91,7 @@ export default function CreateGameModal() {
               onChange={(e) => updateFormData("rounds", +e.target.value)}
               required
               min={1}
-              max={10}
+              max={5}
             />
           </div>
 
@@ -140,7 +144,7 @@ export default function CreateGameModal() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Play Now</Button>
+          <Button disabled={buttonDisabled}  type="submit">Play Now</Button>
         </DialogFooter>
       </form>
     </Modal>

@@ -46,3 +46,4 @@ export const updatePlayerPoints = internalMutation({
     }
   },
 });
+

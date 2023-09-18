@@ -3,7 +3,7 @@ import { FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 py-4">
+    <footer className="bg-gray-900 py-4 h-full">
       <div className="container mx-auto flex justify-center items-center">
         <a
           href="https://github.com/Solokiller00Root/GuessGame/tree/dev/my-app"

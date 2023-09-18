@@ -237,3 +237,26 @@ export const updateInGamePlayerPoints = mutation({
     }
   },
 });
+
+
+export const getUserGames = query({
+  args: { userId: v.id("users")},
+  handler: async (ctx, { userId }) => {
+    const games = await ctx.db.query("games").filter((q) => q.eq(q.field("status"), "finished")).collect()
+    const userGames = games.filter((game) => game.players.some((player) => player.id === userId));
+    return userGames;
+  },
+});
+
+
+
+export const getUserAveragePoints = query({
+  args: { userId: v.id("users") },
+  handler: async (ctx, { userId }) => {
+    const games = await ctx.db.query("games").filter((q) => q.eq(q.field("status"), "finished")).collect();
+    const userGames = games.filter((game) => game.players.some((player) => player.id === userId));
+    const userPoints = userGames.map((game) => game.players.find((player) => player.id === userId)).filter((player) => player?.points !== undefined).map((player) => player!.points);
+    const average = userPoints.reduce((a, b) => a + b, 0) / userPoints.length;
+    return average.toFixed(1);
+  },
+});

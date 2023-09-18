@@ -74,16 +74,16 @@ export default function GameStatusOngoing({
 
   return (
     <div className="container relative flex flex-col items-center justify-center gap-y-8">
-      <h1 className="text-4xl font-bold md:text-6xl max-sm:text-4xl">
+      <h1 className="text-4xl font-bold md:text-6xl max-sm:text-4xl flex justify-center item-center">
         {currentRound?.brokenWord.toUpperCase()}
       </h1>
       <form
-        className="flex flex-wrap items-center justify-center gap-4 input-word-game"
+        className="flex flex-wrap items-center justify-center gap-2 lg:absolute bottom-10   "
         onSubmit={handleGuessWord}
       >
         <input
           type="text"
-          className="w-full p-4 text-2xl font-bold text-center border border-purple-600 rounded-md sm:w-3/5 input-styling md:text-4xl focus:outline-none focus:ring-2 focus:ring-purple-600"
+          className="w-full p-4 text-2xl font-bold text-center border text-black border-purple-600 rounded-md sm:w-3/5 input-styling md:text-4xl focus:outline-none focus:ring-2 focus:ring-purple-600"
           value={guessedWord}
           onChange={(e) => setGuessedWord(e.target.value)}
           placeholder={`${currentRound?.word[0]}___${

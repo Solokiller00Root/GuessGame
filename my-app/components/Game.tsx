@@ -48,7 +48,7 @@ export default function Game() {
     return <JoinGameModal gameId={gameId} />;
   }
   return (
-    <div className="flex flex-col w-11/12 py-8 mt-8 bg-black border border-white rounded-xl md:flex-row">
+    <div className="flex flex-col w-11/12  py-8 mt-8 bg-black border border-white rounded-xl md:flex-row conatiner-game">
       <LeaderBoard gameId={gameId} />
       <GuessWord gameId={gameId} />
     </div>

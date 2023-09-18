@@ -3,14 +3,18 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import Image from "next/image";
 import React from "react";
+import { Id } from "@/convex/_generated/dataModel"
+import { useSession } from "next-auth/react";
+
+
 
 export default function Leaderboard() {
+
   const topTenUsers = useQuery(api.users.getTopTenUsers);
 
   return (
     <section className="w-screen h-[75vh] flex flex-col justify-center items-center text-white">
       <h1>Leaderboard</h1>
-
       <table className="min-w-max w-3/5 text-white-800 table-auto">
         <thead>
           <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -89,6 +93,7 @@ export default function Leaderboard() {
                     <span>{user.username}</span>
                   </div>
                 </td>
+            
                 <td className="py-3 px-6 text-center">
                   <span className="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
                     {user.points}

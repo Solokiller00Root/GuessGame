@@ -46,28 +46,6 @@ body {
   }
 }
 
-@media screen and (max-width: 600px) {
-  .container-game {
-    height: 120vh;
-    margin-top: 50px;
-  }
-  .gamelogs {
-    display: none;
-  }
-  .ongoing-container {
-    margin-top: 150px;
-  }
-  .container1 {
-    margin-top: 150px;
-  }
-  .container-waiting {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100vh;
-  }
-}
 
 .shine-star {
   animation: shine 1s infinite;
@@ -108,6 +86,38 @@ input[type="number"] {
   }
 }
 
+.conatiner-game{
+  height: 70vh;
+  
+}
+
+.conatiner-game{
+  overflow-y: hidden;
+  overflow-x: hidden;
+  ::-webkit-scrollbar{
+    display: none;
+
+  }
+}
+
+.x-button{
+  position: absolute;
+  top: -5px;
+  right: 3px;
+  margin: 1rem;
+  cursor: pointer;
+  z-index: 100;
+  width: 10px;
+  outline: none;
+  height: 20px;
+  background: #fff;
+}
+
+
+  
+
+
+
 li {
   font-size: 1.25rem; /* Equivalent to text-xl */
 
@@ -136,16 +146,7 @@ h1 {
   font-size: 3.2em;
 }
 
-.container-lobbies {
-  background: #1d0c33;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  scroll-snap-align: start;
-  scroll-behavior: smooth;
-}
+
 .tables {
   margin-bottom: 10rem;
 }

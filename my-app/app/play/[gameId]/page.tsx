@@ -32,7 +32,7 @@ export default function Play() {
       {checkGameIsValid ? (
         <Game />
       ) : (
-        <div className="lds-ring">
+        <div className="lds-ring flex justify-center items-center">
           <div></div>
           <div></div>
           <div></div>

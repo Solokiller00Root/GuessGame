@@ -25,7 +25,7 @@ export default async function RootLayout({
             <main>
               <Navbar />
               {children}
-              {/* <Footer /> */}
+
             </main>
           </ConvexClientProvider>
         </SessionProvider>
