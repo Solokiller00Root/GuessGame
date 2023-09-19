@@ -17,7 +17,9 @@ import GuessLogo from "./custom-ui/navbar/GuessLogo";
 const links = [
   { title: "Leadboard", url: "/leaderboard" },
   { title: "Join Game", url: "/#games" },
-  { title: "Create Game", url: "/" },
+  { title: "Create Game", url: "/"},
+  { title: "Rules", url: "/rules"},
+  
 ];
 
 export default function Navbar() {

@@ -3,17 +3,17 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import Image from "next/image";
 import React from "react";
-import { Id } from "@/convex/_generated/dataModel"
-import { useSession } from "next-auth/react";
+
 
 
 
 export default function Leaderboard() {
 
   const topTenUsers = useQuery(api.users.getTopTenUsers);
+  
 
   return (
-    <section className="w-screen h-[75vh] flex flex-col justify-center items-center text-white">
+    <section className="w-screen h-[75vh] flex flex-col items-center text-white mt-20">
       <h1>Leaderboard</h1>
       <table className="min-w-max w-3/5 text-white-800 table-auto">
         <thead>

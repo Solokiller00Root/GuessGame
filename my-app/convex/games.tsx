@@ -257,6 +257,12 @@ export const getUserAveragePoints = query({
     const userGames = games.filter((game) => game.players.some((player) => player.id === userId));
     const userPoints = userGames.map((game) => game.players.find((player) => player.id === userId)).filter((player) => player?.points !== undefined).map((player) => player!.points);
     const average = userPoints.reduce((a, b) => a + b, 0) / userPoints.length;
+    if (isNaN(average)) {
+      return 0;
+    }
     return average.toFixed(1);
   },
 });
+
+
+

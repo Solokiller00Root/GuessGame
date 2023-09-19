@@ -59,7 +59,7 @@ export default function CreateGameModal() {
   return (
     <Modal
       triggerButton={
-        <button className="flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+        <button className="glowing-button3  flex items-center justify-center w-full px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
           Create Game
         </button>
       }
@@ -84,14 +84,14 @@ export default function CreateGameModal() {
             <Label htmlFor="rounds">Number of rounds</Label>
             <Input
               type="number"
-              placeholder="5"
+              placeholder="10"
               id="rounds"
               className="col-span-3"
               value={formData.rounds}
               onChange={(e) => updateFormData("rounds", +e.target.value)}
               required
               min={1}
-              max={5}
+              max={10}
             />
           </div>
 

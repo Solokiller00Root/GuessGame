@@ -113,7 +113,10 @@ input[type="number"] {
   background: #fff;
 }
 
-
+.leaderboard-page{
+display: flex;
+top: 100px;
+}
   
 
 
@@ -159,12 +162,6 @@ h1 {
   color: black;
 }
 
-.leaderboard .singlePlayerStat:nth-child(odd) {
-  background-color: #4e4b51;
-}
-.leaderboard .singlePlayerStat:nth-child(even) {
-  background-color: #343434;
-}
 
 /* =========== Custom scrollbar for leaderboard =========== */
 /* width */
