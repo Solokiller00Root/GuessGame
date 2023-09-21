@@ -12,8 +12,8 @@ export default function Leaderboard() {
   const topTenUsers = useQuery(api.users.getTopTenUsers);
   
 
-  return (
-    <section className="w-screen h-[75vh] flex flex-col items-center text-white mt-20">
+  return ( 
+    <section className="w-screen h-[70vh] flex flex-col items-center text-white mt-20 overflow-x-hidden overflow-y-hidden">
       <h1>Leaderboard</h1>
       <table className="min-w-max w-3/5 text-white-800 table-auto">
         <thead>

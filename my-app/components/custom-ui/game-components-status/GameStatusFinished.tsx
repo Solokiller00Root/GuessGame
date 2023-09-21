@@ -28,7 +28,7 @@ export default function GameStatusFinished(  ) {
   }
 
 
-  const title = `Congratulations!` ;
+
  
 
 
@@ -44,8 +44,8 @@ export default function GameStatusFinished(  ) {
              </div>
               <ModalFinishedGame
                 isOpen={showModal}
-                title={title}
-                description="Congratulations! You have completed the game."
+                title="Congratulations! "
+                description="You have completed the game."
               >
                 <div className="flex justify-end">
                   <button className="x-button" onClick={handleCloseModal}>

@@ -77,7 +77,7 @@ export default function AvailableLobbies() {
   return (
     <div
       id="games"
-      className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans h-full  "
+      className="flex flex-col h-screen justify-start items-center bg-{#1d0c33} container-lobbies font-sans h-full   "
     >
       <motion.h1
         className="text-4xl font-bold mt-8 mb-4 py-10 text-white "
@@ -88,7 +88,7 @@ export default function AvailableLobbies() {
       >
         Available Lobbies:
       </motion.h1>
-      <div className="overflow-x-auto md:w-1/2 tr-bar overflow-hidden">
+      <div className="overflow-x-auto md:w-1/2 tr-bar overflow-hidde ">
         <motion.table
           className="w-full max-w-md sm:max-w-full border-collapse tables border border-gray-300 sm:rounded-lg"
           variants={tableVariants}

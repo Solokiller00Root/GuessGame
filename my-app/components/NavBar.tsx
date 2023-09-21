@@ -15,9 +15,8 @@ import BurgerMenu from "./custom-ui/navbar/BurgerMenu";
 import GuessLogo from "./custom-ui/navbar/GuessLogo";
 
 const links = [
-  { title: "Leadboard", url: "/leaderboard" },
   { title: "Join Game", url: "/#games" },
-  { title: "Create Game", url: "/"},
+  { title: "Leaderboard", url: "/leaderboard" },
   { title: "Rules", url: "/rules"},
   
 ];

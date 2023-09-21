@@ -59,8 +59,8 @@ export default function GameStatusWaiting({ gameId }: GuessWordPropsType) {
           <div className="flex flex-col items-center justify-center py-10 ">
             {
               //TODO: change this to 3 when done testing
-              game.players?.length < 1 ? (
-                <p className="py-10">Need 3 or more players to start</p>
+              game.players?.length < 2 ? (
+                <p className="py-10">Need 1 or more player to start</p>
               ) : (
                 <CustomButton
                   handleClick={() =>
